@@ -289,11 +289,11 @@ const postsPerPage = 8;
 const postsPageCount = Math.ceil(posts.length / postsPerPage);
 
 const prayers = [
-  { icon: "🌅", name: "Fajr", time: "05:07 AM", minutes: 307 },
-  { icon: "☀️", name: "Dhuhr", time: "12:06 PM", minutes: 726 },
-  { icon: "🌤️", name: "Asr", time: "03:21 PM", minutes: 921 },
-  { icon: "🌇", name: "Maghrib", time: "05:45 PM", minutes: 1065 },
-  { icon: "🌙", name: "Isha", time: "07:04 PM", minutes: 1144 },
+  { icon: "🌅", name: "Fajr", time: "05:15 AM", minutes: 307 },
+  { icon: "☀️", name: "Dhuhr", time: "01:15 PM", minutes: 726 },
+  { icon: "🌤️", name: "Asr", time: "03:20 PM", minutes: 921 },
+  { icon: "🌇", name: "Maghrib", time: "05:25 PM", minutes: 1065 },
+  { icon: "🌙", name: "Isha", time: "08:00 PM", minutes: 1144 },
 ];
 
 const pagePaths = {
@@ -944,295 +944,298 @@ function App() {
   const nextPrayer = useMemo(() => getNextPrayer(now), [now]);
   const nightPrayerTimes = useMemo(() => getNightPrayerTimes(), []);
   const firstName = profile.fullName.trim().split(/\s+/)[0] || "Arsh";
-  const arabicDate = now.toLocaleDateString("ar-SA-u-ca-islamic-umalqura", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  const arabicDate = now.toLocaleDateString("en-u-ca-islamic-umalqura", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+});
 
-  const navigate = (page, path = pagePaths[page]) => {
-    if (!path) {
-      throw new Error(`No route is configured for "${page}".`);
-    }
-    window.history.pushState(null, "", path);
-    setRoute({ page });
+
+const navigate = (page, path = pagePaths[page]) => {
+  if (!path) {
+    throw new Error(`No route is configured for "${page}".`);
+  }
+  window.history.pushState(null, "", path);
+  setRoute({ page });
+  setSelectedProphet("");
+  setSelectedCompanion("");
+  setSelectedBattle("");
+  setSelectedCaliph("");
+  setShareMessage("");
+  if (page === "posts") setPostsPage(1);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
+const openArticle = (post) => {
+  navigate("article", `/posts/${slugify(post.title)}`);
+  setRoute({ page: "article", post });
+};
+
+useEffect(() => {
+  const onPopState = () => {
+    setRoute(getRoute(window.location.pathname));
     setSelectedProphet("");
     setSelectedCompanion("");
     setSelectedBattle("");
     setSelectedCaliph("");
-    setShareMessage("");
-    if (page === "posts") setPostsPage(1);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  window.addEventListener("popstate", onPopState);
+  return () => window.removeEventListener("popstate", onPopState);
+}, []);
 
-  const openArticle = (post) => {
-    navigate("article", `/posts/${slugify(post.title)}`);
-    setRoute({ page: "article", post });
-  };
+useEffect(() => {
+  const timer = window.setInterval(() => setNow(new Date()), 30_000);
+  return () => window.clearInterval(timer);
+}, []);
 
-  useEffect(() => {
-    const onPopState = () => {
-      setRoute(getRoute(window.location.pathname));
-      setSelectedProphet("");
-      setSelectedCompanion("");
-      setSelectedBattle("");
-      setSelectedCaliph("");
-    };
-    window.addEventListener("popstate", onPopState);
-    return () => window.removeEventListener("popstate", onPopState);
-  }, []);
+useEffect(() => {
+  document.documentElement.dataset.theme = darkMode ? "dark" : "light";
+  localStorage.setItem("islam24-theme", darkMode ? "dark" : "light");
+}, [darkMode]);
 
-  useEffect(() => {
-    const timer = window.setInterval(() => setNow(new Date()), 30_000);
-    return () => window.clearInterval(timer);
-  }, []);
+useEffect(() => {
+  if (route.page !== "quran") return undefined;
+  const controller = new AbortController();
+  fetch("https://api.alquran.cloud/v1/surah", { signal: controller.signal })
+    .then((response) => {
+      if (!response.ok) throw new Error("Could not load the surah list.");
+      return response.json();
+    })
+    .then((result) => {
+      if (result.code !== 200 || !Array.isArray(result.data)) {
+        throw new Error(
+          "The Quran service returned an unexpected surah list.",
+        );
+      }
+      setSurahs(result.data);
+    })
+    .catch((error) => {
+      if (error.name !== "AbortError") setQuranError(error.message);
+    });
+  return () => controller.abort();
+}, [route.page]);
 
-  useEffect(() => {
-    document.documentElement.dataset.theme = darkMode ? "dark" : "light";
-    localStorage.setItem("islam24-theme", darkMode ? "dark" : "light");
-  }, [darkMode]);
+useEffect(() => {
+  if (route.page !== "quran") return undefined;
+  const controller = new AbortController();
+  setQuranLoading(true);
+  setQuranError("");
+  setReaderAyahs([]);
+  setAudioQueue([]);
+  setAudioQueueIndex(0);
+  setAudioPlaying(false);
+  setAudioCurrentTime(0);
+  setAudioDuration(0);
 
-  useEffect(() => {
-    if (route.page !== "quran") return undefined;
-    const controller = new AbortController();
-    fetch("https://api.alquran.cloud/v1/surah", { signal: controller.signal })
-      .then((response) => {
-        if (!response.ok) throw new Error("Could not load the surah list.");
-        return response.json();
-      })
-      .then((result) => {
+  const loadVerses = async () => {
+    try {
+      const editions = ["quran-uthmani", "en.sahih", "ar.alafasy"];
+      let editionData;
+      if (parahNumber) {
+        editionData = await Promise.all(
+          editions.map(async (edition) => {
+            const response = await fetch(
+              `https://api.alquran.cloud/v1/juz/${parahNumber}/${edition}`,
+              { signal: controller.signal },
+            );
+            if (!response.ok) {
+              throw new Error("Could not load Quran verses for this Parah.");
+            }
+            const result = await response.json();
+            if (result.code !== 200 || !result.data?.ayahs) {
+              throw new Error(
+                "The Quran service returned incomplete Parah data.",
+              );
+            }
+            return result.data;
+          }),
+        );
+      } else {
+        const response = await fetch(
+          `https://api.alquran.cloud/v1/surah/${surahNumber}/editions/${editions.join(",")}`,
+          { signal: controller.signal },
+        );
+        if (!response.ok) throw new Error("Could not load Quran verses.");
+        const result = await response.json();
         if (result.code !== 200 || !Array.isArray(result.data)) {
           throw new Error(
-            "The Quran service returned an unexpected surah list.",
+            "The Quran service returned incomplete verse data.",
           );
         }
-        setSurahs(result.data);
-      })
-      .catch((error) => {
-        if (error.name !== "AbortError") setQuranError(error.message);
-      });
-    return () => controller.abort();
-  }, [route.page]);
-
-  useEffect(() => {
-    if (route.page !== "quran") return undefined;
-    const controller = new AbortController();
-    setQuranLoading(true);
-    setQuranError("");
-    setReaderAyahs([]);
-    setAudioQueue([]);
-    setAudioQueueIndex(0);
-    setAudioPlaying(false);
-    setAudioCurrentTime(0);
-    setAudioDuration(0);
-
-    const loadVerses = async () => {
-      try {
-        const editions = ["quran-uthmani", "en.sahih", "ar.alafasy"];
-        let editionData;
-        if (parahNumber) {
-          editionData = await Promise.all(
-            editions.map(async (edition) => {
-              const response = await fetch(
-                `https://api.alquran.cloud/v1/juz/${parahNumber}/${edition}`,
-                { signal: controller.signal },
-              );
-              if (!response.ok) {
-                throw new Error("Could not load Quran verses for this Parah.");
-              }
-              const result = await response.json();
-              if (result.code !== 200 || !result.data?.ayahs) {
-                throw new Error(
-                  "The Quran service returned incomplete Parah data.",
-                );
-              }
-              return result.data;
-            }),
-          );
-        } else {
-          const response = await fetch(
-            `https://api.alquran.cloud/v1/surah/${surahNumber}/editions/${editions.join(",")}`,
-            { signal: controller.signal },
-          );
-          if (!response.ok) throw new Error("Could not load Quran verses.");
-          const result = await response.json();
-          if (result.code !== 200 || !Array.isArray(result.data)) {
-            throw new Error(
-              "The Quran service returned incomplete verse data.",
-            );
-          }
-          editionData = result.data;
-        }
-
-        const [arabic, translation, recitation] = editionData;
-        if (
-          !arabic?.ayahs?.length ||
-          !translation?.ayahs ||
-          !recitation?.ayahs
-        ) {
-          throw new Error("The Quran service returned incomplete verse data.");
-        }
-        const verses = arabic.ayahs.map((ayah, index) => ({
-          ...ayah,
-          translation: translation.ayahs[index]?.text || "",
-          audio: recitation.ayahs[index]?.audio || "",
-        }));
-        setReaderAyahs(verses);
-        const playableAyahs = verses.filter((ayah) => ayah.audio);
-        setAudioQueue(playableAyahs);
-        setAudioQueueIndex(0);
-        if (!playableAyahs.length) {
-          setAudioError(
-            "Recitation audio is not available for this selection.",
-          );
-        } else {
-          setAudioError("");
-        }
-      } catch (error) {
-        if (error.name !== "AbortError") setQuranError(error.message);
-      } finally {
-        if (!controller.signal.aborted) setQuranLoading(false);
+        editionData = result.data;
       }
-    };
-    loadVerses();
 
-    return () => controller.abort();
-  }, [route.page, surahNumber, parahNumber]);
-
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio || !audioQueue[audioQueueIndex]) return;
-    if (!audioPlaying) {
-      audio.pause();
-      return;
-    }
-    audio.play().catch(() => {
-      setAudioPlaying(false);
-      setAudioError(
-        "Audio could not start. Use the player controls to try again.",
-      );
-    });
-  }, [audioQueue, audioQueueIndex, audioPlaying]);
-
-  useEffect(() => {
-    if (!profileOpen) return undefined;
-    const closeOnEscape = (event) => {
-      if (event.key === "Escape") setProfileOpen(false);
-    };
-    window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [profileOpen]);
-
-  const showHero = (page, title) => {
-    const [eyebrow, defaultTitle, image] = pageInfo[page] || [];
-    return (
-      <header
-        className={`page-hero ${page}`}
-        style={image ? { "--hero-image": `url("${image}")` } : undefined}
-      >
-        <button className="back-link" onClick={() => navigate("home")}>
-          ← Home
-        </button>
-        <span className="eyebrow">{eyebrow}</span>
-        <h1>{title || defaultTitle}</h1>
-        <p>{pageDescriptions[page]}</p>
-      </header>
-    );
-  };
-
-  const handleProfileSave = (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const updatedProfile = Object.fromEntries(formData.entries());
-    try {
-      localStorage.setItem("islam24-profile", JSON.stringify(updatedProfile));
-    } catch {
-      window.alert("Could not save your profile on this device.");
-      return;
-    }
-    setProfile(updatedProfile);
-    setProfileOpen(false);
-  };
-
-  const shareArticle = async () => {
-    if (!navigator.share) {
-      setShareMessage("Sharing is not supported here. Use Copy link instead.");
-      return;
-    }
-    try {
-      await navigator.share({
-        title: article.title,
-        text: `${article.tag}: ${article.title}`,
-        url: window.location.href,
-      });
-      setShareMessage("Article shared.");
+      const [arabic, translation, recitation] = editionData;
+      if (
+        !arabic?.ayahs?.length ||
+        !translation?.ayahs ||
+        !recitation?.ayahs
+      ) {
+        throw new Error("The Quran service returned incomplete verse data.");
+      }
+      const verses = arabic.ayahs.map((ayah, index) => ({
+        ...ayah,
+        translation: translation.ayahs[index]?.text || "",
+        audio: recitation.ayahs[index]?.audio || "",
+      }));
+      setReaderAyahs(verses);
+      const playableAyahs = verses.filter((ayah) => ayah.audio);
+      setAudioQueue(playableAyahs);
+      setAudioQueueIndex(0);
+      if (!playableAyahs.length) {
+        setAudioError(
+          "Recitation audio is not available for this selection.",
+        );
+      } else {
+        setAudioError("");
+      }
     } catch (error) {
-      if (error.name !== "AbortError") {
-        setShareMessage("Could not share this article. Please try again.");
-      }
+      if (error.name !== "AbortError") setQuranError(error.message);
+    } finally {
+      if (!controller.signal.aborted) setQuranLoading(false);
     }
   };
+  loadVerses();
 
-  const copyArticleLink = async () => {
-    try {
-      await navigator.clipboard.writeText(window.location.href);
-      setShareMessage("Article link copied.");
-    } catch {
-      setShareMessage(
-        "Could not copy the link. Check browser clipboard permissions.",
-      );
-    }
+  return () => controller.abort();
+}, [route.page, surahNumber, parahNumber]);
+
+useEffect(() => {
+  const audio = audioRef.current;
+  if (!audio || !audioQueue[audioQueueIndex]) return;
+  if (!audioPlaying) {
+    audio.pause();
+    return;
+  }
+  audio.play().catch(() => {
+    setAudioPlaying(false);
+    setAudioError(
+      "Audio could not start. Use the player controls to try again.",
+    );
+  });
+}, [audioQueue, audioQueueIndex, audioPlaying]);
+
+useEffect(() => {
+  if (!profileOpen) return undefined;
+  const closeOnEscape = (event) => {
+    if (event.key === "Escape") setProfileOpen(false);
   };
+  window.addEventListener("keydown", closeOnEscape);
+  return () => window.removeEventListener("keydown", closeOnEscape);
+}, [profileOpen]);
 
-  const toggleAudioPlayback = () => {
-    if (!audioQueue.length) return;
-    setAudioError("");
-    setAudioPlaying((playing) => !playing);
-  };
-
-  const skipAudio = (offset) => {
-    const nextIndex = audioQueueIndex + offset;
-    if (nextIndex < 0 || nextIndex >= audioQueue.length) return;
-    setAudioError("");
-    setAudioCurrentTime(0);
-    setAudioDuration(0);
-    setAudioQueueIndex(nextIndex);
-    setAudioPlaying(true);
-  };
-
-  const handleAudioEnded = () => {
-    if (audioQueueIndex + 1 >= audioQueue.length) {
-      setAudioPlaying(false);
-      return;
-    }
-    setAudioCurrentTime(0);
-    setAudioDuration(0);
-    setAudioQueueIndex((index) => index + 1);
-    setAudioPlaying(true);
-  };
-
-  const dateTime = (
-    <time dateTime={now.toISOString()}>
-      <strong className="welcome-time">
-        {now.toLocaleTimeString("en-IN", {
-          hour: "2-digit",
-          minute: "2-digit",
-        })}
-      </strong>
-      <span className="date-value">
-        <span>International</span>
-        {now.toLocaleDateString("en-IN", {
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        })}
-      </span>
-      <span className="date-value islamic-date" lang="ar" dir="rtl">
-        <span>التاريخ الهجري</span>
-        {arabicDate}
-      </span>
-    </time>
+const showHero = (page, title) => {
+  const [eyebrow, defaultTitle, image] = pageInfo[page] || [];
+  return (
+    <header
+      className={`page-hero ${page}`}
+      style={image ? { "--hero-image": `url("${image}")` } : undefined}
+    >
+      <button className="back-link" onClick={() => navigate("home")}>
+        ← Home
+      </button>
+      <span className="eyebrow">{eyebrow}</span>
+      <h1>{title || defaultTitle}</h1>
+      <p>{pageDescriptions[page]}</p>
+    </header>
   );
+};
+
+const handleProfileSave = (event) => {
+  event.preventDefault();
+  const formData = new FormData(event.currentTarget);
+  const updatedProfile = Object.fromEntries(formData.entries());
+  try {
+    localStorage.setItem("islam24-profile", JSON.stringify(updatedProfile));
+  } catch {
+    window.alert("Could not save your profile on this device.");
+    return;
+  }
+  setProfile(updatedProfile);
+  setProfileOpen(false);
+};
+
+const shareArticle = async () => {
+  if (!navigator.share) {
+    setShareMessage("Sharing is not supported here. Use Copy link instead.");
+    return;
+  }
+  try {
+    await navigator.share({
+      title: article.title,
+      text: `${article.tag}: ${article.title}`,
+      url: window.location.href,
+    });
+    setShareMessage("Article shared.");
+  } catch (error) {
+    if (error.name !== "AbortError") {
+      setShareMessage("Could not share this article. Please try again.");
+    }
+  }
+};
+
+const copyArticleLink = async () => {
+  try {
+    await navigator.clipboard.writeText(window.location.href);
+    setShareMessage("Article link copied.");
+  } catch {
+    setShareMessage(
+      "Could not copy the link. Check browser clipboard permissions.",
+    );
+  }
+};
+
+const toggleAudioPlayback = () => {
+  if (!audioQueue.length) return;
+  setAudioError("");
+  setAudioPlaying((playing) => !playing);
+};
+
+const skipAudio = (offset) => {
+  const nextIndex = audioQueueIndex + offset;
+  if (nextIndex < 0 || nextIndex >= audioQueue.length) return;
+  setAudioError("");
+  setAudioCurrentTime(0);
+  setAudioDuration(0);
+  setAudioQueueIndex(nextIndex);
+  setAudioPlaying(true);
+};
+
+const handleAudioEnded = () => {
+  if (audioQueueIndex + 1 >= audioQueue.length) {
+    setAudioPlaying(false);
+    return;
+  }
+  setAudioCurrentTime(0);
+  setAudioDuration(0);
+  setAudioQueueIndex((index) => index + 1);
+  setAudioPlaying(true);
+};
+
+const dateTime = (
+  <time dateTime={now.toISOString()}>
+
+    <strong className="welcome-time">
+      {now.toLocaleTimeString("en-IN", {
+        hour: "2-digit",
+        minute: "2-digit",
+      })}
+    </strong>
+
+    <span className="date-value">
+      {now.toLocaleDateString("en-IN", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      })}
+    </span>
+
+    <span className="date-value islamic-date" lang="ar" dir="rtl">
+      {arabicDate}
+    </span>
+    
+  </time>
+);
 
   return (
     <div className="app-shell">
@@ -1251,7 +1254,6 @@ function App() {
         </button>
         <nav className="top-links" aria-label="Main navigation">
           {[
-            ["home", "Home", "⌂", true],
             ["quran", "Quran", "▤"],
             ["prayer", "Prayer times", "◷", true],
             ["posts", "Posts", "✦"],
@@ -1368,6 +1370,29 @@ function App() {
               halfway between Maghrib and the next Fajr; Tahajjud begins at the
               start of the final third.
             </p>
+
+            {/* PRAYER TIMINGs */}
+
+            <h2 className="prayer-list-heading">
+              5 Prayer Timings:
+            </h2>
+            <section className="prayer-list" aria-label="Daily prayer times">
+              {prayers.map((prayer) => (
+                <div className="prayer-row" key={prayer.name}>
+                  <span className="prayer-emoji" aria-hidden="true">
+                    {prayer.icon}
+                  </span>
+                  <strong>{prayer.name}</strong>
+                  <span>{prayer.time}</span>
+                </div>
+              ))}
+            </section>
+
+            {/* OTHER TIMINGs */}
+
+            <h2 className="prayer-list-heading">
+              Other Timings:
+            </h2>
             <section
               className="prayer-auxiliary-grid"
               aria-label="Sunrise, sunset, and night prayer times"
@@ -1377,31 +1402,17 @@ function App() {
                   🌄
                 </span>
                 <strong>Sunrise</strong>
-                <span>06:20 AM</span>
+                <span>05:58 AM</span>
               </div>
               <div className="prayer-row auxiliary-prayer">
                 <span className="prayer-emoji" aria-hidden="true">
                   🌅
                 </span>
                 <strong>Sunset</strong>
-                <span>05:44 PM</span>
+                <span>05:22 PM</span>
               </div>
               {nightPrayerTimes.map((prayer) => (
                 <div className="prayer-row auxiliary-prayer" key={prayer.name}>
-                  <span className="prayer-emoji" aria-hidden="true">
-                    {prayer.icon}
-                  </span>
-                  <strong>{prayer.name}</strong>
-                  <span>{prayer.time}</span>
-                </div>
-              ))}
-            </section>
-            <h2 className="prayer-list-heading">
-              Prayer Names &amp; Timings:
-            </h2>
-            <section className="prayer-list" aria-label="Daily prayer times">
-              {prayers.map((prayer) => (
-                <div className="prayer-row" key={prayer.name}>
                   <span className="prayer-emoji" aria-hidden="true">
                     {prayer.icon}
                   </span>
@@ -2046,7 +2057,7 @@ function App() {
         )}
       </main>
 
-      <nav className="bottom-nav" aria-label="Quick navigation">
+      {/* <nav className="bottom-nav" aria-label="Quick navigation">
         {[
           ["posts", "Posts", "▤"],
           ["donate", "Donate", "♡"],
@@ -2063,7 +2074,7 @@ function App() {
             <small>{label}</small>
           </button>
         ))}
-      </nav>
+      </nav> */}
 
       {profileOpen && (
         <div
