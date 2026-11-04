@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import logo from "./logo2.png"
 import "./App.css";
 import {
   allahNames,
@@ -404,28 +405,28 @@ const pageDescriptions = {
 
 const allCategories = [
   ["📖", "Al-Quran", "quran"],
-  ["🕰️", "Prayer times", "prayer"],
-  ["🕌", "Namaz", "namaz"],
-  ["🧒", "Muslim Names", "names"],
-  ["📚", "Books", "books"],
-  ["🕌", "Mosques", "mosques"],
-  ["✨", "99 Names of Allah", "allah-names"],
-  ["🌙", "Prophets", "prophets"],
-  ["🤝", "Sahaba", "sahaba"],
-  ["👑", "Caliphs", "caliphs"],
   ["🛡️", "Battles", "battles"],
+  ["📚", "Books", "books"],
+  ["👑", "Caliphs", "caliphs"],
+  ["🤲", "Donate", "donate"],
+  ["🕋", "Hajj", "hajj"],
+  ["📜", "History of Islam", "history-of-islam"],
+  ["✨", "Miracles in Islam", "miracles"],
+  ["🕌", "Mosques", "mosques"],
+  ["🧒", "Muslim Names", "names"],
+  ["📚", "Muhaddis", "muhaddis"],
+  ["🕌", "Namaz", "namaz"],
   ["🌟", "Pillars of Islam", "pillars-of-islam"],
   ["🌟", "Pillars of Imaan", "pillars-of-imaan"],
-  ["🕋", "Hajj", "hajj"],
+  ["📝", "Posts", "posts"],
+  ["🕰️", "Prayer times", "prayer"],
+  ["🌙", "Prophets", "prophets"],
+  ["🤝", "Sahaba", "sahaba"],
+  ["📖", "Short Stories", "short-stories"],
   ["🕋", "Umrah", "umrah"],
   ["🌿", "Jannat", "jannat"],
   ["🔥", "Jahannum", "jahannum"],
-  ["📜", "History of Islam", "history-of-islam"],
-  ["📚", "Muhaddis", "muhaddis"],
-  ["✨", "Miracles in Islam", "miracles"],
-  ["📖", "Short Stories", "short-stories"],
-  ["📝", "Posts", "posts"],
-  ["🤲", "Donate", "donate"],
+  ["✨", "99 Names of Allah", "allah-names"],
 ];
 
 const topicContent = {
@@ -1239,19 +1240,25 @@ const dateTime = (
 
   return (
     <div className="app-shell">
+
       <header className="topbar">
-        <button
+
+        {/* LOGO */}
+        <div
           className="brand"
           onClick={() => navigate("home")}
           aria-label="Go to home"
         >
-          <span className="brand-mark" aria-hidden="true">
+          {/* <span className="brand-mark" aria-hidden="true">
             ☾
           </span>
           <span>
             Islam<span className="brand-light">24</span>
-          </span>
-        </button>
+          </span> */}
+          <img src={logo} width="70"/>
+        </div>
+
+        {/* NAV BUTTON */}
         <nav className="top-links" aria-label="Main navigation">
           {[
             ["quran", "Quran", "▤"],
@@ -1273,6 +1280,8 @@ const dateTime = (
             </button>
           ))}
         </nav>
+
+        {/* DARK MODE */}
         <button
           className="theme-toggle"
           onClick={() => setDarkMode((enabled) => !enabled)}
@@ -1282,6 +1291,7 @@ const dateTime = (
         >
           <span aria-hidden="true">{darkMode ? "☀" : "☾"}</span>
         </button>
+
       </header>
 
       <main className="main-content">
@@ -1314,7 +1324,7 @@ const dateTime = (
               <div className="section-heading">
                 <h2>Next Prayer</h2>
                 <button onClick={() => navigate("prayer")}>
-                  All prayer times →
+                  See All Prayer →
                 </button>
               </div>
               <PrayerHighlight

@@ -15,6 +15,18 @@
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
+  "icons": [
+    {
+      "src": "/src/Screenshot 2026-10-26 095727.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/src/Screenshot 2026-10-26 095727.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

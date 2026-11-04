@@ -279,7 +279,7 @@ a {
 .daily-card .eyebrow,
 .page-hero .eyebrow {
   color: #f6cf83;
-  font-size: 11px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.075em;
 }
@@ -1810,16 +1810,20 @@ html[data-theme="dark"] .article-content blockquote {
   background: var(--surface-muted);
 }
 
-@media (max-width: 700px) {
+/* ================================================ */
+/* ============= MEDIA QUERIES : 768 ============== */
+/* ================================================ */
+
+@media (max-width: 768px) {
   .app-shell {
-    width: min(100%, 432px);
+    width: min(100%, 768px);
     margin: 0 auto;
-    padding: 0 0 100px;
+    padding: 0 0 0px;
   }
 
   .topbar {
     width: 100%;
-    height: 60px;
+    height: 55px;
     grid-template-columns: auto minmax(0, 1fr) auto;
     gap: 8px;
     margin: 0;
@@ -1837,11 +1841,9 @@ html[data-theme="dark"] .article-content blockquote {
     height: 30px;
     font-size: 18px;
   }
-
   .top-links {
     gap: 3px;
   }
-
   .top-links button {
     display: grid;
     width: auto;
@@ -1849,173 +1851,138 @@ html[data-theme="dark"] .article-content blockquote {
     place-items: center;
     padding: 0 5px;
   }
-
   .top-links .desktop-only-nav {
     display: none;
   }
-
   .top-nav-icon {
     display: none;
   }
-
   .top-nav-label {
     display: inline;
     font-size: 12px;
     font-weight: 600;
   }
-
   .theme-toggle {
     width: 38px;
     height: 38px;
     font-size: 21px;
   }
-
   .main-content {
     width: auto;
-    margin: 0 13px;
+    margin: 10px 13px 0 13px;
   }
-
   .welcome-strip {
     min-height: 94px;
     margin-bottom: 16px;
     padding: 12px;
     border-radius: 17px;
   }
-
   .welcome-user {
     gap: 8px;
   }
-
   .welcome-user small {
     font-size: 8px;
   }
-
   .welcome-user strong {
     font-size: 15px;
   }
-
   .avatar {
     width: 39px;
     height: 39px;
     flex-basis: 39px;
   }
-
   .avatar svg {
     width: 23px;
   }
-
   .welcome-datetime .date-value {
     font-size: 10px;
   }
-
   .welcome-datetime .date-value > span {
     font-size: 8px;
   }
-
   .welcome-datetime .welcome-time {
     font-size: 23px;
   }
-
   .welcome-datetime .islamic-date {
     font-size: 8px;
   }
-
   .prayer-row {
     gap: 6px;
     padding: 7px;
   }
-
   .prayer-emoji {
     width: 28px;
     height: 28px;
     flex: 0 0 28px;
   }
-
   .prayer-row > span:last-child {
     font-size: 11px;
     white-space: nowrap;
   }
-
   .auxiliary-prayer strong,
   .prayer-list .prayer-row strong {
     font-size: 12px;
   }
-
   .daily-highlights {
     grid-template-columns: 1fr;
   }
-
   .daily-card {
     min-height: 132px;
     padding: 17px;
     border-radius: 17px;
   }
-
   .daily-card p {
     font-size: 16px;
   }
-
   .category-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 8px;
   }
-
   .category-card {
     min-height: 76px;
     gap: 5px;
     border-radius: 13px;
   }
-
   .category-icon {
     font-size: 21px;
   }
-
   .category-card > span:last-child {
     font-size: 10px;
   }
-
   .section-heading h2 {
     font-size: 16px;
   }
-
   .section-heading button {
-    font-size: 11px;
+    font-size: 13px;
   }
-
   .prayer-highlight {
     grid-template-columns: 1.2fr 0.9fr 0.9fr;
     padding: 14px 9px;
     border-radius: 16px;
   }
-
   .prayer-highlight > span {
-    gap: 4px;
+    gap: 2px;
     padding: 0 7px;
+    padding-left: 15px;
   }
-
   .prayer-highlight small {
-    font-size: 8px;
+    font-size: 10px;
   }
-
   .prayer-highlight strong {
-    font-size: 13px;
+    font-size: 18px;
   }
-
   .prayer-highlight-main {
-    gap: 7px !important;
+    gap: 15px !important;
   }
-
   .prayer-highlight-main strong {
     font-size: 18px;
   }
-
   .prayer-highlight-icon {
-    width: 32px;
-    height: 32px;
-    flex-basis: 32px;
+    width: 40px;
+    height: 45px;
+    flex-basis: 45px;
     font-size: 17px;
   }
-
   .hadith-card {
     min-height: 128px;
     margin-top: 13px;
@@ -2220,11 +2187,15 @@ html[data-theme="dark"] .article-content blockquote {
   }
 }
 
-@media (max-width: 360px) {
+/* ================================================ */
+/* ============= MEDIA QUERIES : 450 ============== */
+/* ================================================ */
+
+@media (max-width: 450px) {
   .topbar {
     gap: 4px;
-    margin-right: 8px;
-    margin-left: 8px;
+    /* margin-right: 8px;
+    margin-left: 8px; */
   }
 
   .brand {
