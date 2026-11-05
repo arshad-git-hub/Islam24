@@ -1009,64 +1009,117 @@ export const allahNames = [
 
 export const bookTitles = [
   {
-    title: "The Noble Quran",
-    subject: "Quran",
-    format: "online edition",
-    url: "https://quran.com/",
-  },
-  {
     title: "Sahih al-Bukhari",
     subject: "Hadith",
-    format: "PDF",
-    url: "https://d1.islamhouse.com/data/en/ih_books/single/en_Sahih_Al-Bukhari.pdf",
+    icon: "📕",
+    url: "https://sunnah.com/bukhari",
   },
-
   {
     title: "Sahih Muslim",
     subject: "Hadith",
-    format: "PDF",
-    url: "https://d1.islamhouse.com/data/en/ih_books/single/en_Sahih_Muslim.pdf",
+    icon: "📗",
+    url: "https://sunnah.com/muslim",
   },
-
   {
     title: "Sunan Abu Dawud",
     subject: "Hadith",
-    format: "online edition",
+    icon: "📘",
     url: "https://sunnah.com/abudawud",
   },
-
-  {
-    title: "Sunan Ibn Majah",
-    subject: "Hadith",
-    format: "online edition",
-    url: "https://sunnah.com/ibnmajah",
-  },
-
   {
     title: "Jami at-Tirmidhi",
     subject: "Hadith",
-    format: "online edition",
+    icon: "📙",
     url: "https://sunnah.com/tirmidhi",
   },
-
+  {
+    title: "Sunan an-Nasa'i",
+    subject: "Hadith",
+    icon: "📔",
+    url: "https://sunnah.com/nasai",
+  },
+  {
+    title: "Sunan Ibn Majah",
+    subject: "Hadith",
+    icon: "📒",
+    url: "https://sunnah.com/ibnmajah",
+  },
+  {
+    title: "Quran in English",
+    subject: "Quran",
+    icon: "📖",
+    url: "https://quranenc.com/en/browse/english_saheeh/1",
+  },
+  {
+    title: "Quran in Hindi",
+    subject: "Quran",
+    icon: "📖",
+    url: "https://quranenc.com/en/browse/hindi_omari/1",
+  },
+  {
+    title: "Quran in Urdu",
+    subject: "Quran",
+    icon: "📖",
+    url: "https://quranenc.com/en/browse/urdu_junagarhi/1",
+  },
+  {
+    title: "Quran with Urdu transliteration",
+    subject: "Quran",
+    icon: "📖",
+    url: "https://quran.com/",
+  },
+  {
+    title: "Quran Urdu translation",
+    subject: "Quran",
+    icon: "📖",
+    url: "https://quranenc.com/en/browse/urdu_junagarhi/1",
+  },
   {
     title: "The Sealed Nectar",
-    subject: "Seerah",
-    format: "online catalogue",
+    subject: "Other Books",
+    icon: "📚",
     url: "https://islamhouse.com/en/category/5387/showall/showall/1/",
   },
-
+  {
+    title: "Raheeq al-Makhtoom (Hinglish)",
+    subject: "Other Books",
+    icon: "📚",
+    url: "https://archive.org/search?query=title%3A%28Raheeq%20al-Makhtoom%29%20AND%20language%3A%28hin%29",
+  },
+  {
+    title: "Raheeq al-Makhtoom (Urdu)",
+    subject: "Other Books",
+    icon: "📚",
+    url: "https://archive.org/search?query=title%3A%28Raheeq%20al-Makhtoom%29%20AND%20language%3A%28urd%29",
+  },
+  {
+    title: "Raheeq al-Makhtoom (Hindi)",
+    subject: "Other Books",
+    icon: "📚",
+    url: "https://archive.org/search?query=title%3A%28Raheeq%20al-Makhtoom%29%20AND%20language%3A%28hin%29",
+  },
+  {
+    title: "Seerat un Nabi",
+    subject: "Other Books",
+    icon: "📚",
+    url: "https://archive.org/search?query=title%3A%28Seerat%20un%20Nabi%29",
+  },
+  {
+    title: "Namaz e Nabawi",
+    subject: "Other Books",
+    icon: "📚",
+    url: "https://archive.org/search?query=title%3A%28Namaz%20e%20Nabawi%29",
+  },
   {
     title: "Ahsanul Bayan",
-    subject: "Tafsir",
-    format: "online catalogue",
+    subject: "Other Books",
+    icon: "📚",
     url: "https://islamhouse.com/en/category/728011/showall/showall/1/",
   },
-
   {
     title: "Tafsir Ibn Kathir",
-    subject: "Tafsir",
-    format: "online edition",
+    subject: "Other Books",
+    icon: "📚",
     url: "https://quran.com/tafsirs/en-tafisr-ibn-kathir",
   },
 ];

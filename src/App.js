@@ -32,6 +32,294 @@ const photos = {
     "https://images.unsplash.com/photo-1609599006353-e629aaabfeae?auto=format&fit=crop&w=1400&q=85",
 };
 
+const interfaceTranslations = {
+  en: {
+    language: "Language",
+    donate: "Donate",
+    backHome: "← Home",
+    currentTime: "LOCAL TIME",
+    upNext: "UP NEXT",
+    azan: "AZAN",
+    jamaah: "JAMAAH",
+    sunrise: "Sunrise",
+    sunset: "Sunset",
+    tahajjud: "Tahajjud",
+    midnight: "Midnight",
+    categories: "Categories",
+    nextPrayer: "Next Prayer",
+    exploreAll: "Explore all →",
+    dailyReminders: "Daily reminders",
+    ayatOfTheDay: "AYAT OF THE DAY",
+    hadithOfTheDay: "HADITH OF THE DAY",
+    latestPosts: "Latest posts",
+    seeAll: "See all →",
+    feedbackTitle: "Feedback & testimonials",
+    feedbackDescription:
+      "Share a suggestion or tell us how Islam24 can serve you better.",
+    feedbackPrivacy: "Feedback is saved only in this browser; it is not sent.",
+    feedbackPlaceholder: "Write your feedback",
+    saveFeedback: "Save feedback on this device",
+    feedbackSaved:
+      "Thank you. Your feedback is saved only for this browser session and has not been sent.",
+    feedbackSaveError: "Could not save feedback in this browser.",
+    aboutUs: "About us",
+    help: "Help",
+    privacy: "Privacy policy",
+    disclaimer: "Disclaimer",
+    tagline: "A thoughtful companion for learning, worship, and daily life.",
+    footerExplore: "Explore",
+    copyright: "All rights reserved.",
+  },
+  hi: {
+    language: "भाषा",
+    donate: "दान करें",
+    backHome: "← होम",
+    currentTime: "स्थानीय समय",
+    upNext: "अगली नमाज़",
+    azan: "अज़ान",
+    jamaah: "जमाअत",
+    sunrise: "सूर्योदय",
+    sunset: "सूर्यास्त",
+    tahajjud: "तहज्जुद",
+    midnight: "आधी रात",
+    categories: "श्रेणियाँ",
+    nextPrayer: "अगली नमाज़",
+    exploreAll: "सभी देखें →",
+    dailyReminders: "आज की याद दिलाने वाली बातें",
+    ayatOfTheDay: "आज की आयत",
+    hadithOfTheDay: "आज की हदीस",
+    latestPosts: "नवीनतम लेख",
+    seeAll: "सभी देखें →",
+    feedbackTitle: "सुझाव और प्रतिक्रिया",
+    feedbackDescription:
+      "अपना सुझाव दें या बताएं कि Islam24 आपकी बेहतर सेवा कैसे कर सकता है।",
+    feedbackPrivacy:
+      "प्रतिक्रिया केवल इसी ब्राउज़र में सेव होती है; भेजी नहीं जाती।",
+    feedbackPlaceholder: "अपनी प्रतिक्रिया लिखें",
+    saveFeedback: "इस डिवाइस पर प्रतिक्रिया सेव करें",
+    feedbackSaved:
+      "धन्यवाद। आपकी प्रतिक्रिया केवल इस ब्राउज़र सत्र में सेव है; इसे भेजा नहीं गया है।",
+    feedbackSaveError: "इस ब्राउज़र में प्रतिक्रिया सेव नहीं हो सकी।",
+    aboutUs: "हमारे बारे में",
+    help: "सहायता",
+    privacy: "गोपनीयता नीति",
+    disclaimer: "अस्वीकरण",
+    tagline: "सीखने, इबादत और दैनिक जीवन के लिए एक विचारशील साथी।",
+    footerExplore: "देखें",
+    copyright: "सर्वाधिकार सुरक्षित।",
+  },
+  ur: {
+    language: "زبان",
+    donate: "عطیہ دیں",
+    backHome: "← ہوم",
+    currentTime: "مقامی وقت",
+    upNext: "اگلی نماز",
+    azan: "اذان",
+    jamaah: "جماعت",
+    sunrise: "طلوع آفتاب",
+    sunset: "غروب آفتاب",
+    tahajjud: "تہجد",
+    midnight: "آدھی رات",
+    categories: "موضوعات",
+    nextPrayer: "اگلی نماز",
+    exploreAll: "سب دیکھیں ←",
+    dailyReminders: "روزانہ کی یاددہانیاں",
+    ayatOfTheDay: "آج کی آیت",
+    hadithOfTheDay: "آج کی حدیث",
+    latestPosts: "تازہ تحریریں",
+    seeAll: "سب دیکھیں ←",
+    feedbackTitle: "آپ کی رائے",
+    feedbackDescription:
+      "اپنی تجویز دیں یا بتائیں کہ اسلام 24 آپ کی بہتر خدمت کیسے کر سکتا ہے۔",
+    feedbackPrivacy:
+      "رائے صرف اسی براؤزر میں محفوظ ہوتی ہے؛ بھیجی نہیں جاتی۔",
+    feedbackPlaceholder: "اپنی رائے لکھیں",
+    saveFeedback: "اس ڈیوائس پر رائے محفوظ کریں",
+    feedbackSaved:
+      "شکریہ۔ آپ کی رائے صرف اس براؤزر سیشن میں محفوظ ہے؛ اسے بھیجا نہیں گیا۔",
+    feedbackSaveError: "اس براؤزر میں رائے محفوظ نہیں ہو سکی۔",
+    aboutUs: "ہمارے بارے میں",
+    help: "مدد",
+    privacy: "رازداری کی پالیسی",
+    disclaimer: "دستبرداری",
+    tagline: "سیکھنے، عبادت اور روزمرہ زندگی کے لیے ایک بامقصد ساتھی۔",
+    footerExplore: "مزید",
+    copyright: "جملہ حقوق محفوظ ہیں۔",
+  },
+  ar: {
+    language: "اللغة",
+    donate: "تبرع",
+    backHome: "الرئيسية ←",
+    currentTime: "الوقت المحلي",
+    upNext: "الصلاة القادمة",
+    azan: "الأذان",
+    jamaah: "الإقامة",
+    sunrise: "الشروق",
+    sunset: "الغروب",
+    tahajjud: "التهجد",
+    midnight: "منتصف الليل",
+    categories: "الفئات",
+    nextPrayer: "الصلاة القادمة",
+    exploreAll: "استكشف الكل ←",
+    dailyReminders: "تذكيرات يومية",
+    ayatOfTheDay: "آية اليوم",
+    hadithOfTheDay: "حديث اليوم",
+    latestPosts: "أحدث المقالات",
+    seeAll: "عرض الكل ←",
+    feedbackTitle: "آراؤكم وملاحظاتكم",
+    feedbackDescription:
+      "شارك اقتراحًا أو أخبرنا كيف يمكن لإسلام 24 خدمتك بشكل أفضل.",
+    feedbackPrivacy:
+      "تُحفظ الملاحظات في هذا المتصفح فقط ولا يتم إرسالها.",
+    feedbackPlaceholder: "اكتب ملاحظاتك",
+    saveFeedback: "احفظ الملاحظات على هذا الجهاز",
+    feedbackSaved:
+      "شكرًا لك. حُفظت ملاحظاتك في جلسة المتصفح فقط ولم يتم إرسالها.",
+    feedbackSaveError: "تعذر حفظ ملاحظاتك في هذا المتصفح.",
+    aboutUs: "من نحن",
+    help: "المساعدة",
+    privacy: "سياسة الخصوصية",
+    disclaimer: "إخلاء المسؤولية",
+    tagline: "رفيق واعٍ للتعلم والعبادة والحياة اليومية.",
+    footerExplore: "استكشف",
+    copyright: "جميع الحقوق محفوظة.",
+  },
+};
+
+const languageOptions = [
+  ["en", "English"],
+  ["hi", "हिन्दी"],
+  ["ur", "اردو"],
+  ["ar", "العربية"],
+];
+
+const footerPages = {
+  about: {
+    title: "About us",
+    paragraphs: [
+      "Islam24 brings Islamic learning, worship tools, and everyday reminders together in one accessible place.",
+      "Our aim is to make it easier to explore trusted sources and useful topics with care and humility.",
+    ],
+  },
+  help: {
+    title: "Help",
+    paragraphs: [
+      "Use the categories and page links to browse Quran resources, hadith collections, prayer information, and articles.",
+      "Prayer schedules are illustrative and can vary by location and calculation method. Consult a local mosque or qualified teacher when needed.",
+    ],
+  },
+  privacy: {
+    title: "Privacy policy",
+    paragraphs: [
+      "Islam24 stores preferences such as theme, language, and profile details locally in your browser. This demonstration does not send profile information to a server.",
+      "Feedback entered on this page is kept only in the current browser session and is not submitted to Islam24.",
+    ],
+  },
+  disclaimer: {
+    title: "Disclaimer",
+    paragraphs: [
+      "Islam24 is provided for general educational purposes. Translations, summaries, sample prayer schedules, and historical details may require review against authoritative sources.",
+      "This website is not a substitute for scholarly advice, professional services, or local religious guidance. Verify references and seek qualified advice for personal rulings.",
+    ],
+  },
+};
+
+const footerTitleKeys = {
+  about: "aboutUs",
+  help: "help",
+  privacy: "privacy",
+  disclaimer: "disclaimer",
+};
+
+const categoryLabels = {
+  hi: {
+    quran: "क़ुरआन",
+    "pillars-of-islam": "इस्लाम के स्तंभ",
+    "pillars-of-imaan": "ईमान के स्तंभ",
+    namaz: "नमाज़",
+    "allah-names": "अल्लाह के 99 नाम",
+    donate: "दान करें",
+    prayer: "नमाज़ के समय",
+    prophets: "पैग़म्बर",
+    books: "किताबें",
+    caliphs: "ख़लीफ़ा",
+    sahaba: "सहाबा",
+    other: "सभी विषय",
+    battles: "इस्लामी युद्ध",
+    hajj: "हज",
+    "history-of-islam": "इस्लाम का इतिहास",
+    miracles: "इस्लामी चमत्कार",
+    mosques: "मस्जिदें",
+    names: "मुस्लिम नाम",
+    muhaddis: "मुहद्दिस",
+    posts: "लेख",
+    "short-stories": "छोटी कहानियाँ",
+    umrah: "उमरा",
+    jannat: "जन्नत",
+    jahannum: "जहन्नम",
+  },
+  ur: {
+    quran: "القرآن",
+    "pillars-of-islam": "اسلام کے ارکان",
+    "pillars-of-imaan": "ایمان کے ارکان",
+    namaz: "نماز",
+    "allah-names": "اللہ کے 99 نام",
+    donate: "عطیہ",
+    prayer: "نماز کے اوقات",
+    prophets: "انبیاء",
+    books: "کتابیں",
+    caliphs: "خلفاء",
+    sahaba: "صحابہ",
+    other: "تمام موضوعات",
+    battles: "اسلامی جنگیں",
+    hajj: "حج",
+    "history-of-islam": "اسلام کی تاریخ",
+    miracles: "اسلامی معجزات",
+    mosques: "مساجد",
+    names: "مسلم نام",
+    muhaddis: "محدثین",
+    posts: "تحریریں",
+    "short-stories": "مختصر کہانیاں",
+    umrah: "عمرہ",
+    jannat: "جنت",
+    jahannum: "جہنم",
+  },
+  ar: {
+    quran: "القرآن",
+    "pillars-of-islam": "أركان الإسلام",
+    "pillars-of-imaan": "أركان الإيمان",
+    namaz: "الصلاة",
+    "allah-names": "أسماء الله الحسنى",
+    donate: "تبرع",
+    prayer: "مواقيت الصلاة",
+    prophets: "الأنبياء",
+    books: "الكتب",
+    caliphs: "الخلفاء",
+    sahaba: "الصحابة",
+    other: "كل الموضوعات",
+    battles: "معارك إسلامية",
+    hajj: "الحج",
+    "history-of-islam": "تاريخ الإسلام",
+    miracles: "معجزات إسلامية",
+    mosques: "المساجد",
+    names: "أسماء إسلامية",
+    muhaddis: "علماء الحديث",
+    posts: "مقالات",
+    "short-stories": "قصص قصيرة",
+    umrah: "العمرة",
+    jannat: "الجنة",
+    jahannum: "جهنم",
+  },
+};
+
+function getInterfaceText(language, key) {
+  return interfaceTranslations[language]?.[key] || interfaceTranslations.en[key];
+}
+
+function getCategoryLabel(language, page, label) {
+  return categoryLabels[language]?.[page] || label;
+}
+
 const categories = [
   ["📖", "Al-Quran", "quran"],
   ["🕌", "Pillars of Islam", "pillars-of-islam"],
@@ -46,6 +334,86 @@ const categories = [
   ["🤝", "Sahaba", "sahaba"],
   ["⋯", "All", "other"],
 ];
+
+const hadithBooks = [
+  { id: "bukhari", label: "Bukhari", name: "Sahih al-Bukhari", icon: "📕" },
+  { id: "muslim", label: "Muslim", name: "Sahih Muslim", icon: "📗" },
+  { id: "abudawud", label: "Abu Dawud", name: "Sunan Abi Dawud", icon: "📘" },
+  { id: "tirmidhi", label: "Tirmidhi", name: "Jami at-Tirmidhi", icon: "📙" },
+  { id: "nasai", label: "An-Nasa'i", name: "Sunan an-Nasa'i", icon: "📔" },
+  { id: "ibnmajah", label: "Ibn Majah", name: "Sunan Ibn Majah", icon: "📒" },
+];
+
+const hadithsByBook = {
+  bukhari: [
+    {
+      number: "1",
+      summary:
+        "Deeds are judged by their intentions, and each person receives according to what they intended.",
+      status: "Sahih",
+      url: "https://sunnah.com/bukhari:1",
+    },
+    {
+      number: "13",
+      summary:
+        "Faith includes wishing for others the good that one wishes for oneself.",
+      status: "Sahih",
+      url: "https://sunnah.com/bukhari:13",
+    },
+    {
+      number: "69",
+      summary:
+        "The Prophet ﷺ taught people to make matters easy and not drive them away.",
+      status: "Sahih",
+      url: "https://sunnah.com/bukhari:69",
+    },
+  ],
+  muslim: [
+    {
+      number: "2699",
+      summary:
+        "Helping others, seeking knowledge, and gathering to learn the Quran are connected with divine support and mercy.",
+      status: "Sahih",
+      url: "https://sunnah.com/muslim:2699",
+    },
+  ],
+  abudawud: [
+    {
+      number: "4607",
+      summary:
+        "In times of disagreement, the Prophet ﷺ advised holding firmly to his Sunnah and the way of the rightly guided caliphs.",
+      status: "Sahih (al-Albani)",
+      url: "https://sunnah.com/abudawud:4607",
+    },
+  ],
+  tirmidhi: [
+    {
+      number: "1924",
+      summary:
+        "Those who show mercy to others are shown mercy by the Most Merciful.",
+      status: "Hasan Sahih",
+      url: "https://sunnah.com/tirmidhi:1924",
+    },
+  ],
+  nasai: [
+    {
+      number: "4998",
+      summary:
+        "The narration describes how accepting Islam brings reward for earlier good deeds and forgiveness for earlier wrongs.",
+      status: "Sahih",
+      url: "https://sunnah.com/nasai:4998",
+    },
+  ],
+  ibnmajah: [
+    {
+      number: "224",
+      summary:
+        "A narration emphasizes seeking knowledge as an important responsibility for Muslims.",
+      status: "Grading varies",
+      url: "https://sunnah.com/ibnmajah",
+    },
+  ],
+};
 
 const posts = [
   {
@@ -286,6 +654,7 @@ const posts = [
     time: `3 min read · ${post.reference}`,
   })),
 ];
+
 const postsPerPage = 8;
 const postsPageCount = Math.ceil(posts.length / postsPerPage);
 
@@ -299,6 +668,10 @@ const prayers = [
 
 const pagePaths = {
   home: "/",
+  about: "/about",
+  help: "/help",
+  privacy: "/privacy",
+  disclaimer: "/disclaimer",
   prayer: "/prayer",
   quran: "/quran",
   mosques: "/mosques",
@@ -314,6 +687,7 @@ const pagePaths = {
   "pillars-of-imaan": "/pillars-of-imaan",
   posts: "/posts",
   other: "/other",
+  hadiths: "/hadiths",
   namaz: "/namaz",
   hajj: "/hajj",
   umrah: "/umrah",
@@ -353,6 +727,7 @@ const pageInfo = {
   "pillars-of-imaan": ["CORE BELIEFS", "Pillars of Imaan", null],
   posts: ["READ · REFLECT · REMEMBER", "Daily Posts", null],
   other: ["EXPLORE ISLAM24", "All categories", null],
+  hadiths: ["HADITH COLLECTIONS", "Hadiths", photos.library],
   namaz: ["DAILY WORSHIP", "Namaz (Salah)", photos.mosque],
   hajj: ["PILLAR OF ISLAM", "Hajj", photos.mosque],
   umrah: ["A JOURNEY OF WORSHIP", "Umrah", photos.mosque],
@@ -376,7 +751,7 @@ const pageDescriptions = {
   names: "Browse names and their commonly used meanings.",
   prophets:
     "Quran-based notes are shown with references. Dates are included only when reliable.",
-  books: "Open an available PDF or trusted online edition.",
+  books: "Browse hadith collections, Quran translations, and other Islamic books.",
   battles:
     "Select an event to see its date, sides, leaders, outcome, and location.",
   sahaba:
@@ -388,6 +763,8 @@ const pageDescriptions = {
     "Explore the six pillars of Imaan. Select a tile to read more.",
   posts: "Reflections and reminders for everyday life.",
   other: "Browse all learning topics and sections.",
+  hadiths:
+    "Browse narrations from six well-known hadith collections. Numbering and grading can differ between editions and scholars.",
   namaz: "A basic introduction to the five daily prayers and their form.",
   hajj: "An introductory guide to Hajj from the Quran and authentic Sunnah.",
   umrah: "An introductory guide to Umrah; ask a qualified guide about rulings.",
@@ -409,6 +786,7 @@ const allCategories = [
   ["📚", "Books", "books"],
   ["👑", "Caliphs", "caliphs"],
   ["🤲", "Donate", "donate"],
+  ["📜", "Hadiths", "hadiths"],
   ["🕋", "Hajj", "hajj"],
   ["📜", "History of Islam", "history-of-islam"],
   ["✨", "Miracles in Islam", "miracles"],
@@ -912,6 +1290,13 @@ function readProfile() {
   }
 }
 
+function readLanguage() {
+  const savedLanguage = localStorage.getItem("islam24-language");
+  return languageOptions.some(([code]) => code === savedLanguage)
+    ? savedLanguage
+    : "en";
+}
+
 function App() {
   const [route, setRoute] = useState(() => getRoute(window.location.pathname));
   const [selectedProphet, setSelectedProphet] = useState("");
@@ -919,8 +1304,12 @@ function App() {
   const [selectedBattle, setSelectedBattle] = useState("");
   const [selectedCaliph, setSelectedCaliph] = useState("");
   const [selectedMosque, setSelectedMosque] = useState(null);
+  const [selectedHadithBook, setSelectedHadithBook] = useState("bukhari");
   const [postsPage, setPostsPage] = useState(1);
   const [now, setNow] = useState(() => new Date());
+  const [language, setLanguage] = useState(readLanguage);
+  const [feedback, setFeedback] = useState("");
+  const [feedbackMessage, setFeedbackMessage] = useState("");
   const [profile, setProfile] = useState(readProfile);
   const [profileOpen, setProfileOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(
@@ -944,12 +1333,7 @@ function App() {
   const article = route.post || posts[0];
   const nextPrayer = useMemo(() => getNextPrayer(now), [now]);
   const nightPrayerTimes = useMemo(() => getNightPrayerTimes(), []);
-  const firstName = profile.fullName.trim().split(/\s+/)[0] || "Arsh";
-  const arabicDate = now.toLocaleDateString("en-u-ca-islamic-umalqura", {
-  day: "numeric",
-  month: "long",
-  year: "numeric",
-});
+  const t = (key) => getInterfaceText(language, key);
 
 
 const navigate = (page, path = pagePaths[page]) => {
@@ -993,6 +1377,13 @@ useEffect(() => {
   document.documentElement.dataset.theme = darkMode ? "dark" : "light";
   localStorage.setItem("islam24-theme", darkMode ? "dark" : "light");
 }, [darkMode]);
+
+useEffect(() => {
+  const isRtl = language === "ar" || language === "ur";
+  document.documentElement.lang = language;
+  document.documentElement.dir = isRtl ? "rtl" : "ltr";
+  localStorage.setItem("islam24-language", language);
+}, [language]);
 
 useEffect(() => {
   if (route.page !== "quran") return undefined;
@@ -1133,10 +1524,10 @@ const showHero = (page, title) => {
       style={image ? { "--hero-image": `url("${image}")` } : undefined}
     >
       <button className="back-link" onClick={() => navigate("home")}>
-        ← Home
+        {t("backHome")}
       </button>
       <span className="eyebrow">{eyebrow}</span>
-      <h1>{title || defaultTitle}</h1>
+      <h1>{title || getCategoryLabel(language, page, defaultTitle)}</h1>
       <p>{pageDescriptions[page]}</p>
     </header>
   );
@@ -1213,133 +1604,98 @@ const handleAudioEnded = () => {
   setAudioPlaying(true);
 };
 
-const dateTime = (
-  <time dateTime={now.toISOString()}>
-
-    <strong className="welcome-time">
-      {now.toLocaleTimeString("en-IN", {
-        hour: "2-digit",
-        minute: "2-digit",
-      })}
-    </strong>
-
-    <span className="date-value">
-      {now.toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      })}
-    </span>
-
-    <span className="date-value islamic-date" lang="ar" dir="rtl">
-      {arabicDate}
-    </span>
-    
-  </time>
-);
-
   return (
     <div className="app-shell">
 
+      <LiveDateStrip language={language} />
+
+      {/* NAVBAR */}
       <header className="topbar">
 
         {/* LOGO */}
-        <div
-          className="brand"
-          onClick={() => navigate("home")}
-          aria-label="Go to home"
-        >
-          {/* <span className="brand-mark" aria-hidden="true">
-            ☾
-          </span>
-          <span>
-            Islam<span className="brand-light">24</span>
-          </span> */}
-          <img src={logo} width="70"/>
+        <div className="brand" onClick={() => navigate("home")} aria-label="Go to home">
+          <img src={logo} width="70" alt="Islam24" />
         </div>
 
-        {/* NAV BUTTON */}
-        <nav className="top-links" aria-label="Main navigation">
-          {[
-            ["quran", "Quran", "▤"],
-            ["prayer", "Prayer times", "◷", true],
-            ["posts", "Posts", "✦"],
-            ["donate", "Donate", "♡"],
-          ].map(([page, label, icon, desktopOnly]) => (
-            <button
-              key={page}
-              onClick={() => navigate(page)}
-              aria-label={label}
-              aria-current={route.page === page ? "page" : undefined}
-              className={desktopOnly ? "desktop-only-nav" : ""}
-            >
-              <span className="top-nav-label">{label}</span>
-              <span className="top-nav-icon" aria-hidden="true">
-                {icon}
-              </span>
-            </button>
-          ))}
-        </nav>
+        <div className="topbar-actions">
 
-        {/* DARK MODE */}
-        <button
-          className="theme-toggle"
-          onClick={() => setDarkMode((enabled) => !enabled)}
-          aria-label={`Switch to ${darkMode ? "light" : "dark"} mode`}
-          aria-pressed={darkMode}
-          title={`Switch to ${darkMode ? "light" : "dark"} mode`}
-        >
-          <span aria-hidden="true">{darkMode ? "☀" : "☾"}</span>
-        </button>
+          <button className="donate-btn" onClick={() => navigate("donate")} aria-current={route.page === "donate" ? "page" : undefined}>
+            <span>🤲 {t("donate")}</span>
+          </button>
+
+          <label className="language-control">
+            <span className="sr-only">{t("language")}</span>
+            <select value={language} onChange={(event) => setLanguage(event.target.value)} aria-label={("language")} >
+              {languageOptions.map(([code, label]) => (
+                <option key={code} value={code}>
+                  {label}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <button
+            className="theme-toggle"
+            onClick={() => setDarkMode((enabled) => !enabled)}
+            aria-label={`Switch to ${darkMode ? "light" : "dark"} mode`}
+            aria-pressed={darkMode}
+            title={`Switch to ${darkMode ? "light" : "dark"} mode`}>
+            <svg
+              aria-hidden="true"
+              className="theme-toggle-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              {darkMode ? (
+                <>
+                  <circle cx="12" cy="12" r="4" />
+                  <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" />
+                </>
+              ) : (
+                <path d="M20.1 15.1A8.5 8.5 0 0 1 8.9 3.9 8.5 8.5 0 1 0 20.1 15.1Z" />
+              )}
+            </svg>
+          </button>
+        </div>
 
       </header>
 
       <main className="main-content">
+        {footerPages[route.page] && (
+          <section className="footer-page panel">
+            <h1>{t(footerTitleKeys[route.page])}</h1>
+            {footerPages[route.page].paragraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </section>
+        )}
+
         {route.page === "home" && (
           <>
-            <section
-              className="welcome-strip"
-              style={{ "--welcome-image": `url("${photos.sunrise}")` }}
-            >
-              <button
-                className="welcome-user"
-                onClick={() => setProfileOpen(true)}
-                aria-label="Open your user profile"
-              >
-                <span className="avatar" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" focusable="false">
-                    <circle cx="12" cy="8" r="3.5" />
-                    <path d="M5 20c.5-3.7 3-5.7 7-5.7s6.5 2 7 5.7" />
-                  </svg>
-                </span>
-                <span>
-                  <small>ASSALAMU ALAIKUM</small>
-                  <strong>Hello! {firstName}</strong>
-                </span>
-              </button>
-              <div className="welcome-datetime">{dateTime}</div>
-            </section>
-
+            <HomePrayerOverview
+              nightPrayerTimes={nightPrayerTimes}
+              language={language}
+              t={t}
+            />
             <section className="section-block prayer-home-section">
-              <div className="section-heading">
-                <h2>Next Prayer</h2>
-                <button onClick={() => navigate("prayer")}>
-                  See All Prayer →
-                </button>
-              </div>
               <PrayerHighlight
                 prayer={nextPrayer}
                 onClick={() => navigate("prayer")}
+                t={t}
               />
             </section>
 
             <section
               className="section-block"
-              aria-label="Categories"
+              aria-label={t("categories")}
             >
               <div className="section-heading">
-                <h2>Categories</h2>
-                <button onClick={() => navigate("other")}>Explore all →</button>
+                <h2>{t("categories")}</h2>
+                <button onClick={() => navigate("other")}>{t("exploreAll")}</button>
               </div>
               <div className="category-grid">
                 {categories.map(([icon, label, page]) => (
@@ -1351,22 +1707,57 @@ const dateTime = (
                     <span className="category-icon" aria-hidden="true">
                       {icon}
                     </span>
-                    <span>{label}</span>
+                    <span>{getCategoryLabel(language, page, label)}</span>
                   </button>
                 ))}
               </div>
             </section>
 
-            <section className="daily-highlights" aria-label="Daily reminders">
+            <section
+              className="daily-highlights"
+              aria-label={t("dailyReminders")}
+            >
               <article
                 className="daily-card ayat-card"
                 style={{ "--card-image": `url("${photos.road}")` }}
               >
-                <span className="eyebrow">AYAT OF THE DAY</span>
+                <span className="eyebrow">{t("ayatOfTheDay")}</span>
                 <p>“Indeed, with hardship comes ease.”</p>
                 <small>Ash-Sharh 94:5–6</small>
               </article>
-              <DailyHadith />
+              <DailyHadith t={t} />
+            </section>
+
+            <FeedbackSection
+              feedback={feedback}
+              setFeedback={setFeedback}
+              message={feedbackMessage}
+              onSubmit={(event) => {
+                event.preventDefault();
+                try {
+                  window.sessionStorage.setItem("islam24-feedback", feedback);
+                  setFeedbackMessage(t("feedbackSaved"));
+                  setFeedback("");
+                } catch {
+                  setFeedbackMessage(
+                    language === "en"
+                      ? "Could not save feedback in this browser."
+                      : t("feedbackSaveError"),
+                  );
+                }
+              }}
+              t={t}
+            />
+
+            <section className="home-posts-section">
+              <div className="section-heading">
+                <h2>{t("latestPosts")}</h2>
+                <button onClick={() => navigate("posts")}>{t("seeAll")}</button>
+              </div>
+              <PostGrid
+                posts={posts.slice(0, 4)}
+                onSelect={openArticle}
+              />
             </section>
           </>
         )}
@@ -1719,31 +2110,28 @@ const dateTime = (
           <>
             {showHero("books")}
             <p className="intro-copy">
-              Select a book to open its available PDF or trusted online edition.
+              Choose a collection or language to browse its available edition.
             </p>
-            {[
-              ["Hadith", bookTitles.filter((book) => book.subject === "Hadith")],
-              ["Quran", bookTitles.filter((book) => book.subject !== "Hadith")],
-            ].map(([category, books]) => (
+            {["Hadith", "Quran", "Other Books"].map((category) => (
               <section className="book-category" key={category}>
                 <h2>{category}</h2>
                 <div className="book-grid">
-                  {books.map((book) => (
-                    <a
-                      className="book-card panel"
-                      href={book.url}
-                      key={book.title}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <span className="book-icon" aria-hidden="true">
-                        📖
-                      </span>
-                      <span className="book-subject">{book.subject}</span>
-                      <h3>{book.title}</h3>
-                      <span className="book-open">Open {book.format} ↗</span>
-                    </a>
-                  ))}
+                  {bookTitles
+                    .filter((book) => book.subject === category)
+                    .map((book) => (
+                      <a
+                        className="book-card panel"
+                        href={book.url}
+                        key={book.title}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <span className="book-icon" aria-hidden="true">
+                          {book.icon}
+                        </span>
+                        <h3>{book.title}</h3>
+                      </a>
+                    ))}
                 </div>
               </section>
             ))}
@@ -1926,11 +2314,19 @@ const dateTime = (
                   <span className="category-icon" aria-hidden="true">
                     {icon}
                   </span>
-                  <span>{label}</span>
+                  <span>{getCategoryLabel(language, page, label)}</span>
                 </button>
               ))}
             </div>
           </>
+        )}
+
+        {route.page === "hadiths" && (
+          <HadithPage
+            showHero={showHero}
+            selectedBook={selectedHadithBook}
+            onSelectBook={setSelectedHadithBook}
+          />
         )}
 
         {topicContent[route.page] && (
@@ -2067,6 +2463,13 @@ const dateTime = (
         )}
       </main>
 
+      <SiteFooter
+        logo={logo}
+        onNavigate={navigate}
+        language={language}
+        t={t}
+      />
+
       {/* <nav className="bottom-nav" aria-label="Quick navigation">
         {[
           ["posts", "Posts", "▤"],
@@ -2176,24 +2579,182 @@ const dateTime = (
   );
 }
 
-function PrayerHighlight({ prayer, onClick }) {
+function useLiveNow() {
+  const [now, setNow] = useState(() => new Date());
+
+  useEffect(() => {
+    const timer = window.setInterval(() => setNow(new Date()), 1000);
+    return () => window.clearInterval(timer);
+  }, []);
+
+  return now;
+}
+
+function LiveDateStrip({ language }) {
+  const now = useLiveNow();
+  const locale = language === "en" ? "en-IN" : language;
+
+  return (
+    <div className="top-info-bar">
+      <time dateTime={now.toISOString()}>
+        {now.toLocaleTimeString(locale, {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        })}
+      </time>
+      <time dateTime={now.toISOString()}>
+        {now.toLocaleDateString(locale, {
+          weekday: "long",
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })}
+      </time>
+    </div>
+  );
+}
+
+function HomePrayerOverview({ nightPrayerTimes, language, t }) {
+  const now = useLiveNow();
+  const locale = language === "en" ? "en-IN" : language;
+  const nightTimes = nightPrayerTimes.map((prayer) => ({
+    ...prayer,
+    title: t(prayer.name === "Tahajjud" ? "tahajjud" : "midnight"),
+  }));
+  const times = [
+    { title: t("sunrise"), time: "05:58 AM", icon: "🌅" },
+    { title: t("sunset"), time: "05:22 PM", icon: "🌇" },
+    ...nightTimes.map((prayer) => ({
+      title: prayer.title,
+      time: prayer.time,
+      icon: prayer.icon,
+    })),
+  ];
+
+  return (
+    <section
+      className="home-prayer-overview"
+      style={{ "--prayer-overview-image": `url("${photos.sunrise}")` }}
+      aria-label="Current time and daily prayer times"
+    >
+      <div className="prayer-overview-current">
+        <span className="eyebrow">{t("currentTime")}</span>
+        <time dateTime={now.toISOString()}>
+          {now.toLocaleTimeString(locale, {
+            hour: "numeric",
+            minute: "2-digit",
+          })}
+        </time>
+      </div>
+      <div className="prayer-overview-times">
+        {times.map((item) => (
+          <div className="prayer-overview-time" key={item.title}>
+            <span aria-hidden="true">{item.icon}</span>
+            <small>{item.title}</small>
+            <strong>{item.time}</strong>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function FeedbackSection({ feedback, setFeedback, message, onSubmit, t }) {
+  return (
+    <section className="feedback-section panel">
+      <div>
+        <span className="eyebrow">{t("feedbackTitle")}</span>
+        <p>{t("feedbackDescription")}</p>
+        <small>{t("feedbackPrivacy")}</small>
+      </div>
+      <form onSubmit={onSubmit}>
+        <label className="sr-only" htmlFor="homepage-feedback">
+          {t("feedbackPlaceholder")}
+        </label>
+        <textarea
+          id="homepage-feedback"
+          value={feedback}
+          onChange={(event) => {
+            setFeedback(event.target.value);
+          }}
+          placeholder={t("feedbackPlaceholder")}
+          maxLength={1000}
+          required
+        />
+        <button className="primary-button" type="submit" disabled={!feedback.trim()}>
+          {t("saveFeedback")}
+        </button>
+        {message && (
+          <p className="feedback-status" role="status">
+            {message}
+          </p>
+        )}
+      </form>
+    </section>
+  );
+}
+
+function SiteFooter({ logo, onNavigate, t }) {
+  const pageLinks = [
+    ["about", "aboutUs"],
+    ["help", "help"],
+    ["privacy", "privacy"],
+    ["disclaimer", "disclaimer"],
+  ];
+
+  return (
+    <footer className="site-footer">
+      <div className="site-footer-content">
+        <div className="site-footer-brand">
+          <img src={logo} alt="Islam24" />
+          <p>{t("tagline")}</p>
+        </div>
+        <nav className="site-footer-links" aria-label={t("footerExplore")}>
+          <h2>{t("footerExplore")}</h2>
+          {pageLinks.map(([page, key]) => (
+            <a
+              href={pagePaths[page]}
+              key={page}
+              onClick={(event) => {
+                event.preventDefault();
+                onNavigate(page);
+              }}
+            >
+              {t(key)}
+            </a>
+          ))}
+          <a
+            href={pagePaths.donate}
+            onClick={(event) => {
+              event.preventDefault();
+              onNavigate("donate");
+            }}
+          >
+            {t("donate")}
+          </a>
+        </nav>
+      </div>
+      <div className="site-footer-copyright">
+        Copyright © {new Date().getFullYear()} Islam24. {t("copyright")}
+      </div>
+    </footer>
+  );
+}
+
+function PrayerHighlight({ prayer, onClick, t }) {
   return (
     <button className="prayer-highlight" onClick={onClick}>
       <span className="prayer-highlight-main">
-        <span className="prayer-highlight-icon" aria-hidden="true">
-          {prayer.icon}
-        </span>
-        <span>
-          <small>UP NEXT</small>
-          <strong>{prayer.name}</strong>
-        </span>
+        <small>{t("upNext")}</small>
+        <strong>{prayer.name}</strong>
       </span>
       <span>
-        <small>AZAN</small>
+        <small>{t("azan")}</small>
         <strong>{prayer.azan}</strong>
       </span>
       <span>
-        <small>JAMAAH</small>
+        <small>{t("jamaah")}</small>
         <strong>{prayer.jamaah}</strong>
       </span>
     </button>
@@ -2258,6 +2819,7 @@ function PillarsPage({ page, showHero, items }) {
           </button>
         ))}
       </div>
+
       <section
         className="panel detail-panel pillar-detail"
         id="pillar-details"
@@ -2302,13 +2864,56 @@ function TopicPage({ page, showHero, sections }) {
   );
 }
 
-function DailyHadith() {
+function HadithPage({ showHero, selectedBook, onSelectBook }) {
+  const book = hadithBooks.find((item) => item.id === selectedBook);
+
+  if (!book) {
+    throw new Error(`Unknown hadith collection: "${selectedBook}".`);
+  }
+
+  return (
+    <>
+      {showHero("hadiths")}
+      <div className="hadith-tabs" role="group" aria-label="Hadith books">
+        {hadithBooks.map((item) => (
+          <button
+            className={selectedBook === item.id ? "selected" : ""}
+            key={item.id}
+            onClick={() => onSelectBook(item.id)}
+            aria-pressed={selectedBook === item.id}
+          >
+            <span className="hadith-tab-icon" aria-hidden="true">
+              {item.icon}
+            </span>
+            {item.label}
+          </button>
+        ))}
+      </div>
+      <section
+        className="hadith-post-grid"
+        aria-label={`${book.name} hadiths`}
+      >
+        {hadithsByBook[book.id].map((hadith) => (
+          <article className="panel hadith-post-card" key={hadith.number}>
+            <p className="hadith-summary">{hadith.summary}</p>
+            <p className="hadith-reference">
+              <strong>Hadith:</strong> {book.label} {hadith.number},{" "}
+              <strong>Status:</strong> {hadith.status}
+            </p>
+          </article>
+        ))}
+      </section>
+    </>
+  );
+}
+
+function DailyHadith({ t }) {
   return (
     <article
       className="daily-card hadith-card"
       style={{ "--card-image": `url("${photos.mosque}")` }}
     >
-      <span className="eyebrow">HADITH OF THE DAY</span>
+      <span className="eyebrow">{t("hadithOfTheDay")}</span>
       <p>“Make things easy and do not make them difficult.”</p>
       <small>Sahih al-Bukhari 69 · Sahih Muslim 1734</small>
     </article>
