@@ -260,6 +260,7 @@ const categoryLabels = {
     umrah: "उमरा",
     jannat: "जन्नत",
     jahannum: "जहन्नम",
+    "dua-dhikr": "दुआ और ज़िक्र",
   },
   ur: {
     quran: "القرآن",
@@ -286,6 +287,7 @@ const categoryLabels = {
     umrah: "عمرہ",
     jannat: "جنت",
     jahannum: "جہنم",
+    "dua-dhikr": "دعا اور ذکر",
   },
   ar: {
     quran: "القرآن",
@@ -312,6 +314,7 @@ const categoryLabels = {
     umrah: "العمرة",
     jannat: "الجنة",
     jahannum: "جهنم",
+    "dua-dhikr": "الدعاء والذكر",
   },
 };
 
@@ -326,16 +329,12 @@ function getCategoryLabel(language, page, label) {
 const categories = [
   ["📖", "Al-Quran", "quran"],
   ["🕌", "Pillars of Islam", "pillars-of-islam"],
-  ["🌟", "Pillars of Imaan", "pillars-of-imaan"],
-  ["🕌", "Namaz", "namaz"],
+  ["🧭", "Pillars of Imaan", "pillars-of-imaan"],
   ["✨", "99 Names of Allah", "allah-names"],
-  ["🤲", "Donate", "donate"],
-  ["🕰️", "Prayer times", "prayer"],
-  ["🌙", "Prophets", "prophets"],
-  ["📚", "Books", "books"],
-  ["👑", "Caliphs", "caliphs"],
-  ["🤝", "Sahaba", "sahaba"],
-  ["🖼️", "Walls", "wallpapers"],
+  ["🕊️", "Prophets", "prophets"],
+  ["📜", "Hadiths", "hadiths"],
+  ["👥", "Sahaba", "sahaba"],
+  ["🤲", "Dua & Dhikr", "dua-dhikr"],
 ];
 
 const posts = [
@@ -640,6 +639,7 @@ const pagePaths = {
   muhaddis: "/muhaddis",
   miracles: "/miracles",
   "short-stories": "/short-stories",
+  "dua-dhikr": "/dua-dhikr",
 };
 
 const pageInfo = {
@@ -681,6 +681,7 @@ const pageInfo = {
   miracles: ["SIGNS BY ALLAH'S PERMISSION", "Miracles in Islam", photos.quran],
   "short-stories": ["AUTHENTIC NARRATIONS", "Short Stories", photos.library],
   wallpapers: ["ISLAMIC WALLPAPERS", "Phone wallpapers", photos.mosque],
+  "dua-dhikr": ["REMEMBRANCE & SUPPLICATION", "Dua & Dhikr", photos.quran],
 };
 
 const pageDescriptions = {
@@ -724,6 +725,8 @@ const pageDescriptions = {
     "Examples explicitly described in the Quran, with their references.",
   "short-stories":
     "Brief stories from rigorously authenticated hadith, with source references.",
+  "dua-dhikr":
+    "Read selected supplications and remembrance in Arabic with English meanings and references.",
 };
 
 const allCategories = [
@@ -732,27 +735,424 @@ const allCategories = [
   ["📚", "Books", "books"],
   ["👑", "Caliphs", "caliphs"],
   ["🤲", "Donate", "donate"],
+  ["🤲", "Dua & Dhikr", "dua-dhikr"],
   ["📜", "Hadiths", "hadiths"],
-  ["🖼️", "Wallpapers", "wallpapers"],
   ["🕋", "Hajj", "hajj"],
   ["📜", "History of Islam", "history-of-islam"],
+  ["🔥", "Jahannum", "jahannum"],
+  ["🌿", "Jannat", "jannat"],
   ["✨", "Miracles in Islam", "miracles"],
   ["🕌", "Mosques", "mosques"],
-  ["🧒", "Muslim Names", "names"],
   ["📚", "Muhaddis", "muhaddis"],
+  ["🧒", "Muslim Names", "names"],
   ["🕌", "Namaz", "namaz"],
+  ["🧭", "Pillars of Imaan", "pillars-of-imaan"],
   ["🌟", "Pillars of Islam", "pillars-of-islam"],
-  ["🌟", "Pillars of Imaan", "pillars-of-imaan"],
   ["📝", "Posts", "posts"],
   ["🕰️", "Prayer times", "prayer"],
-  ["🌙", "Prophets", "prophets"],
-  ["🤝", "Sahaba", "sahaba"],
+  ["🕊️", "Prophets", "prophets"],
+  ["👥", "Sahaba", "sahaba"],
   ["📖", "Short Stories", "short-stories"],
   ["🕋", "Umrah", "umrah"],
-  ["🌿", "Jannat", "jannat"],
-  ["🔥", "Jahannum", "jahannum"],
+  ["🖼️", "Wallpapers", "wallpapers"],
   ["✨", "99 Names of Allah", "allah-names"],
 ];
+
+const duaDhikrContent = {
+  dua: [
+    {
+      title: "A supplication for good in both lives",
+      arabic:
+        "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
+      english:
+        "Our Lord, give us good in this world and good in the Hereafter, and protect us from the punishment of the Fire.",
+      reference: "Quran 2:201",
+    },
+    {
+      title: "A prayer for knowledge",
+      arabic: "رَبِّ زِدْنِي عِلْمًا",
+      english: "My Lord, increase me in knowledge.",
+      reference: "Quran 20:114",
+    },
+    {
+      title: "A supplication for forgiveness",
+      arabic:
+        "رَبَّنَا ظَلَمْنَا أَنْفُسَنَا وَإِنْ لَمْ تَغْفِرْ لَنَا وَتَرْحَمْنَا لَنَكُونَنَّ مِنَ الْخَاسِرِينَ",
+      english:
+        "Our Lord, we have wronged ourselves. If You do not forgive us and have mercy on us, we will surely be among the losers.",
+      reference: "Quran 7:23",
+    },
+    {
+      title: "Asking for pardon and well-being",
+      arabic:
+        "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ",
+      english:
+        "O Allah, I ask You for pardon and well-being in this world and the Hereafter.",
+      reference: "Sunan Abi Dawud 5074",
+    },
+    {
+      title: "Seeking refuge from worry and debt",
+      arabic:
+        "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَالْعَجْزِ وَالْكَسَلِ، وَالْجُبْنِ وَالْبُخْلِ، وَضَلَعِ الدَّيْنِ وَغَلَبَةِ الرِّجَالِ",
+      english:
+        "O Allah, I seek refuge in You from anxiety and sorrow, incapacity and laziness, cowardice and miserliness, the burden of debt, and being overpowered by people.",
+      reference: "Sahih al-Bukhari 6369",
+    },
+    ...[
+      [
+        "A prayer for steadfast hearts",
+        "رَبَّنَا لَا تُزِغْ قُلُوبَنَا بَعْدَ إِذْ هَدَيْتَنَا وَهَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً إِنَّكَ أَنْتَ الْوَهَّابُ",
+        "Our Lord, do not let our hearts deviate after You have guided us, and grant us mercy from Yourself. You are the Bestower.",
+        "Quran 3:8",
+      ],
+      [
+        "A prayer for forgiveness",
+        "رَبَّنَا إِنَّنَا آمَنَّا فَاغْفِرْ لَنَا ذُنُوبَنَا وَقِنَا عَذَابَ النَّارِ",
+        "Our Lord, we have believed, so forgive us our sins and protect us from the punishment of the Fire.",
+        "Quran 3:16",
+      ],
+      [
+        "A prayer to be counted among the witnesses",
+        "رَبَّنَا آمَنَّا بِمَا أَنْزَلْتَ وَاتَّبَعْنَا الرَّسُولَ فَاكْتُبْنَا مَعَ الشَّاهِدِينَ",
+        "Our Lord, we believe in what You have revealed and follow the messenger, so include us among the witnesses.",
+        "Quran 3:53",
+      ],
+      [
+        "A prayer for patience and victory",
+        "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا وَثَبِّتْ أَقْدَامَنَا وَانْصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
+        "Our Lord, pour patience upon us, make our steps firm, and grant us victory over the disbelieving people.",
+        "Quran 2:250",
+      ],
+      [
+        "A prayer for acceptance",
+        "رَبَّنَا تَقَبَّلْ مِنَّا إِنَّكَ أَنْتَ السَّمِيعُ الْعَلِيمُ",
+        "Our Lord, accept this from us. You are the All-Hearing, the All-Knowing.",
+        "Quran 2:127",
+      ],
+      [
+        "A prayer to establish prayer",
+        "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِنْ ذُرِّيَّتِي رَبَّنَا وَتَقَبَّلْ دُعَاءِ",
+        "My Lord, make me an establisher of prayer, and also my descendants. Our Lord, accept my supplication.",
+        "Quran 14:40",
+      ],
+      [
+        "A prayer for forgiveness for family",
+        "رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ",
+        "Our Lord, forgive me, my parents, and the believers on the Day the account is established.",
+        "Quran 14:41",
+      ],
+      [
+        "A prayer for mercy and guidance",
+        "رَبَّنَا آتِنَا مِنْ لَدُنْكَ رَحْمَةً وَهَيِّئْ لَنَا مِنْ أَمْرِنَا رَشَدًا",
+        "Our Lord, grant us mercy from Yourself and guide us to a right course in our affairs.",
+        "Quran 18:10",
+      ],
+      [
+        "A prayer for mercy",
+        "رَبِّ اغْفِرْ وَارْحَمْ وَأَنْتَ خَيْرُ الرَّاحِمِينَ",
+        "My Lord, forgive and have mercy; You are the Best of those who show mercy.",
+        "Quran 23:118",
+      ],
+      [
+        "A prayer for a righteous family",
+        "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا وَذُرِّيَّاتِنَا قُرَّةَ أَعْيُنٍ وَاجْعَلْنَا لِلْمُتَّقِينَ إِمَامًا",
+        "Our Lord, grant us comfort in our spouses and children and make us examples for the righteous.",
+        "Quran 25:74",
+      ],
+      [
+        "A prayer for gratitude and good deeds",
+        "رَبِّ أَوْزِعْنِي أَنْ أَشْكُرَ نِعْمَتَكَ الَّتِي أَنْعَمْتَ عَلَيَّ وَعَلَى وَالِدَيَّ وَأَنْ أَعْمَلَ صَالِحًا تَرْضَاهُ",
+        "My Lord, inspire me to be grateful for Your favor upon me and my parents, and to do righteous deeds that please You.",
+        "Quran 27:19",
+      ],
+      [
+        "A prayer for provision",
+        "رَبِّ إِنِّي لِمَا أَنْزَلْتَ إِلَيَّ مِنْ خَيْرٍ فَقِيرٌ",
+        "My Lord, I am truly in need of whatever good You may send down to me.",
+        "Quran 28:24",
+      ],
+      [
+        "A prayer for forgiveness and protection",
+        "رَبَّنَا وَسِعْتَ كُلَّ شَيْءٍ رَحْمَةً وَعِلْمًا فَاغْفِرْ لِلَّذِينَ تَابُوا وَاتَّبَعُوا سَبِيلَكَ وَقِهِمْ عَذَابَ الْجَحِيمِ",
+        "Our Lord, You encompass all things in mercy and knowledge, so forgive those who repent and follow Your way, and protect them from the punishment of the Fire.",
+        "Quran 40:7",
+      ],
+      [
+        "A prayer for believers who came before us",
+        "رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا الَّذِينَ سَبَقُونَا بِالْإِيمَانِ",
+        "Our Lord, forgive us and our brothers and sisters who preceded us in faith.",
+        "Quran 59:10",
+      ],
+      [
+        "A prayer for perfect light and forgiveness",
+        "رَبَّنَا أَتْمِمْ لَنَا نُورَنَا وَاغْفِرْ لَنَا إِنَّكَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+        "Our Lord, perfect our light for us and forgive us. You have power over all things.",
+        "Quran 66:8",
+      ],
+      [
+        "A prayer for parents and believers",
+        "رَبِّ اغْفِرْ لِي وَلِوَالِدَيَّ وَلِمَنْ دَخَلَ بَيْتِيَ مُؤْمِنًا وَلِلْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ",
+        "My Lord, forgive me, my parents, whoever enters my home as a believer, and all believing men and women.",
+        "Quran 71:28",
+      ],
+      [
+        "A prayer for protection from wrongdoing",
+        "رَبَّنَا لَا تَجْعَلْنَا فِتْنَةً لِلْقَوْمِ الظَّالِمِينَ وَنَجِّنَا بِرَحْمَتِكَ مِنَ الْقَوْمِ الْكَافِرِينَ",
+        "Our Lord, do not make us a trial for the wrongdoing people, and save us by Your mercy from the disbelieving people.",
+        "Quran 10:85–86",
+      ],
+      [
+        "A prayer for protection from injustice",
+        "رَبَّنَا لَا تَجْعَلْنَا مَعَ الْقَوْمِ الظَّالِمِينَ",
+        "Our Lord, do not place us among the wrongdoing people.",
+        "Quran 7:47",
+      ],
+      [
+        "A prayer for ease in speaking",
+        "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي وَاحْلُلْ عُقْدَةً مِنْ لِسَانِي يَفْقَهُوا قَوْلِي",
+        "My Lord, expand my chest, make my task easy, and untie the knot from my tongue so they may understand my speech.",
+        "Quran 20:25–28",
+      ],
+      [
+        "The supplication of Yunus",
+        "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ",
+        "There is no god worthy of worship except You. Glory be to You; I have surely been among the wrongdoers.",
+        "Quran 21:87",
+      ],
+      [
+        "A prayer for a child and family",
+        "رَبِّ لَا تَذَرْنِي فَرْدًا وَأَنْتَ خَيْرُ الْوَارِثِينَ",
+        "My Lord, do not leave me alone, though You are the Best of inheritors.",
+        "Quran 21:89",
+      ],
+      [
+        "Seeking refuge from troubling whispers",
+        "رَبِّ أَعُوذُ بِكَ مِنْ هَمَزَاتِ الشَّيَاطِينِ وَأَعُوذُ بِكَ رَبِّ أَنْ يَحْضُرُونِ",
+        "My Lord, I seek refuge in You from the whispers of the devils, and I seek refuge in You from their presence.",
+        "Quran 23:97–98",
+      ],
+      [
+        "A prayer for forgiveness and firmness",
+        "رَبَّنَا اغْفِرْ لَنَا ذُنُوبَنَا وَإِسْرَافَنَا فِي أَمْرِنَا وَثَبِّتْ أَقْدَامَنَا وَانْصُرْنَا عَلَى الْقَوْمِ الْكَافِرِينَ",
+        "Our Lord, forgive our sins and excesses, make our steps firm, and grant us victory over the disbelieving people.",
+        "Quran 3:147",
+      ],
+      [
+        "A prayer for pardon and mercy",
+        "رَبَّنَا لَا تُؤَاخِذْنَا إِنْ نَسِينَا أَوْ أَخْطَأْنَا رَبَّنَا وَلَا تَحْمِلْ عَلَيْنَا إِصْرًا",
+        "Our Lord, do not hold us accountable if we forget or make a mistake. Our Lord, do not place upon us a burden.",
+        "Quran 2:286",
+      ],
+      [
+        "Remembering Allah in creation",
+        "رَبَّنَا مَا خَلَقْتَ هَذَا بَاطِلًا سُبْحَانَكَ فَقِنَا عَذَابَ النَّارِ",
+        "Our Lord, You did not create this without purpose. Glory be to You, so protect us from the punishment of the Fire.",
+        "Quran 3:191",
+      ],
+    ].map(([title, arabic, english, reference]) => ({
+      title,
+      arabic,
+      english,
+      reference,
+    })),
+  ],
+  dhikr: [
+    {
+      title: "Glorifying and praising Allah",
+      arabic: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+      english: "Glory be to Allah and praise belongs to Him.",
+      reference:
+        "Sahih Muslim 2691; the hadith mentions saying it one hundred times in a day.",
+    },
+    {
+      title: "Words beloved to Allah",
+      arabic: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ",
+      english:
+        "Glory be to Allah and praise belongs to Him; glory be to Allah, the Magnificent.",
+      reference: "Sahih al-Bukhari 6682; Sahih Muslim 2694",
+    },
+    {
+      title: "Affirming the oneness of Allah",
+      arabic:
+        "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+      english:
+        "There is no god worthy of worship except Allah alone, without partner. To Him belongs all dominion and praise, and He has power over all things.",
+      reference: "Sahih al-Bukhari 3293; Sahih Muslim 2691",
+    },
+    {
+      title: "Words to say after prayer",
+      arabic:
+        "سُبْحَانَ اللَّهِ، وَالْحَمْدُ لِلَّهِ، وَاللَّهُ أَكْبَرُ",
+      english: "Glory be to Allah; praise belongs to Allah; Allah is the Greatest.",
+      reference:
+        "Sahih Muslim 597; the narration describes saying each phrase thirty-three times after prayer.",
+    },
+    {
+      title: "Seeking forgiveness",
+      arabic: "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ",
+      english: "I seek Allah's forgiveness and repent to Him.",
+      reference:
+        "Sahih al-Bukhari 6307; the Prophet ﷺ frequently sought forgiveness.",
+    },
+    ...[
+      [
+        "Allah is sufficient for us",
+        "حَسْبُنَا اللَّهُ وَنِعْمَ الْوَكِيلُ",
+        "Allah is sufficient for us, and He is the best Disposer of affairs.",
+        "Quran 3:173",
+      ],
+      [
+        "A treasure from Paradise",
+        "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+        "There is no power and no strength except through Allah.",
+        "Sahih al-Bukhari 6384; Sahih Muslim 2704",
+      ],
+      [
+        "Glory be to Allah",
+        "سُبْحَانَ اللَّهِ",
+        "Glory be to Allah.",
+        "Quran 17:44",
+      ],
+      [
+        "All praise belongs to Allah",
+        "الْحَمْدُ لِلَّهِ",
+        "All praise belongs to Allah.",
+        "Quran 1:2; Sahih Muslim 223",
+      ],
+      [
+        "Allah is the Greatest",
+        "اللَّهُ أَكْبَرُ",
+        "Allah is the Greatest.",
+        "Sahih Muslim 597",
+      ],
+      [
+        "There is no god but Allah",
+        "لَا إِلَهَ إِلَّا اللَّهُ",
+        "There is no god worthy of worship except Allah.",
+        "Sahih al-Bukhari 844; Sahih Muslim 593",
+      ],
+      [
+        "Seeking Allah's forgiveness",
+        "أَسْتَغْفِرُ اللَّهَ",
+        "I seek Allah's forgiveness.",
+        "Sahih Muslim 591",
+      ],
+      [
+        "Glorifying Allah morning and evening",
+        "سُبْحَانَ اللَّهِ حِينَ تُمْسُونَ وَحِينَ تُصْبِحُونَ",
+        "Glory be to Allah in the evening and in the morning.",
+        "Quran 30:17",
+      ],
+      [
+        "A phrase of reliance",
+        "تَوَكَّلْتُ عَلَى اللَّهِ",
+        "I place my trust in Allah.",
+        "Quran 11:56",
+      ],
+      [
+        "A phrase of glorification",
+        "سُبْحَانَ اللَّهِ الْعَظِيمِ",
+        "Glory be to Allah, the Magnificent.",
+        "Sahih al-Bukhari 6682; Sahih Muslim 2694",
+      ],
+      [
+        "A phrase of praise",
+        "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+        "Glory be to Allah and praise belongs to Him.",
+        "Sahih al-Bukhari 6405; Sahih Muslim 2691",
+      ],
+      [
+        "A phrase beloved to Allah",
+        "سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ",
+        "Glory be to Allah, praise belongs to Allah, there is no god worthy of worship except Allah, and Allah is the Greatest.",
+        "Sahih Muslim 2137",
+      ],
+      [
+        "Seeking refuge in Allah's perfect words",
+        "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
+        "I seek refuge in the perfect words of Allah from the evil of what He created.",
+        "Sahih Muslim 2708",
+      ],
+      [
+        "Beginning in Allah's name",
+        "بِسْمِ اللَّهِ",
+        "In the name of Allah.",
+        "Quran 1:1",
+      ],
+      [
+        "A declaration of Allah's oneness",
+        "قُلْ هُوَ اللَّهُ أَحَدٌ",
+        "Say: He is Allah, the One.",
+        "Quran 112:1",
+      ],
+      [
+        "Seeking refuge in the Lord of daybreak",
+        "قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ",
+        "Say: I seek refuge in the Lord of daybreak.",
+        "Quran 113:1",
+      ],
+      [
+        "Seeking refuge in the Lord of humankind",
+        "قُلْ أَعُوذُ بِرَبِّ النَّاسِ",
+        "Say: I seek refuge in the Lord of humankind.",
+        "Quran 114:1",
+      ],
+      [
+        "Allah's most beautiful names",
+        "وَلِلَّهِ الْأَسْمَاءُ الْحُسْنَى فَادْعُوهُ بِهَا",
+        "To Allah belong the most beautiful names, so call upon Him by them.",
+        "Quran 7:180",
+      ],
+      [
+        "Remembering Allah often",
+        "يَا أَيُّهَا الَّذِينَ آمَنُوا اذْكُرُوا اللَّهَ ذِكْرًا كَثِيرًا",
+        "O believers, remember Allah with abundant remembrance.",
+        "Quran 33:41",
+      ],
+      [
+        "Remembering Allah after prayer",
+        "فَإِذَا قَضَيْتُمُ الصَّلَاةَ فَاذْكُرُوا اللَّهَ",
+        "When you have finished the prayer, remember Allah.",
+        "Quran 4:103",
+      ],
+      [
+        "The best words after the Quran",
+        "لَا إِلَهَ إِلَّا اللَّهُ",
+        "The best remembrance is: There is no god worthy of worship except Allah.",
+        "Jami at-Tirmidhi 3383",
+      ],
+      [
+        "Words that fill the scale",
+        "الْحَمْدُ لِلَّهِ تَمْلَأُ الْمِيزَانَ",
+        "All praise belongs to Allah; it fills the scale.",
+        "Sahih Muslim 223",
+      ],
+      [
+        "Glorification and praise of Allah",
+        "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ عَدَدَ خَلْقِهِ",
+        "Glory be to Allah and praise belongs to Him, as many times as His creation.",
+        "Sahih Muslim 2726",
+      ],
+      [
+        "A morning remembrance",
+        "اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا",
+        "O Allah, by You we enter the morning and by You we enter the evening.",
+        "Sunan Abi Dawud 5068; Jami at-Tirmidhi 3391",
+      ],
+      [
+        "A remembrance of the Prophet Ibrahim",
+        "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
+        "There is no god worthy of worship except Allah alone, without partner.",
+        "Sahih al-Bukhari 6404; Sahih Muslim 2691",
+      ],
+    ].map(([title, arabic, english, reference]) => ({
+      title,
+      arabic,
+      english,
+      reference,
+    })),
+  ],
+};
 
 const topicContent = {
   namaz: [
@@ -1264,6 +1664,7 @@ function App() {
   const [sunTimesError, setSunTimesError] = useState("");
   const [profile, setProfile] = useState(readProfile);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(
     () => localStorage.getItem("islam24-theme") === "dark",
   );
@@ -1299,6 +1700,7 @@ const navigate = (page, path = pagePaths[page]) => {
   setSelectedBattle("");
   setSelectedCaliph("");
   setShareMessage("");
+  setMenuOpen(false);
   if (page === "posts") setPostsPage(1);
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
@@ -1511,6 +1913,15 @@ useEffect(() => {
   return () => window.removeEventListener("keydown", closeOnEscape);
 }, [profileOpen]);
 
+useEffect(() => {
+  if (!menuOpen) return undefined;
+  const closeOnEscape = (event) => {
+    if (event.key === "Escape") setMenuOpen(false);
+  };
+  window.addEventListener("keydown", closeOnEscape);
+  return () => window.removeEventListener("keydown", closeOnEscape);
+}, [menuOpen]);
+
 const showHero = (page, title) => {
   const [eyebrow, defaultTitle, image] = pageInfo[page] || [];
   return (
@@ -1612,7 +2023,7 @@ const handleAudioEnded = () => {
 
         {/* LOGO */}
         <div className="brand" onClick={() => navigate("home")} aria-label="Go to home">
-          <img src={logo} width="70" alt="Islam24" />
+          <img className="brand-logo" src={logo} alt="Islam24" />
         </div>
 
         <div className="topbar-actions">
@@ -1647,6 +2058,39 @@ const handleAudioEnded = () => {
           <button className="donate-btn" onClick={() => navigate("donate")} aria-current={route.page === "donate" ? "page" : undefined}>
             <span>🤲 {t("donate")}</span>
           </button>
+          <div className="menu-container">
+            <button
+              className="menu-toggle"
+              type="button"
+              aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={menuOpen}
+              aria-controls="site-navigation-menu"
+              onClick={() => setMenuOpen((isOpen) => !isOpen)}
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+            {menuOpen && (
+              <nav
+                className="site-navigation-menu"
+                id="site-navigation-menu"
+                aria-label="Site navigation"
+              >
+                {categories.map(([, label, page]) => (
+                  <button
+                    className="site-navigation-link"
+                    key={page}
+                    type="button"
+                    aria-current={route.page === page ? "page" : undefined}
+                    onClick={() => navigate(page)}
+                  >
+                    {getCategoryLabel(language, page, label)}
+                  </button>
+                ))}
+              </nav>
+            )}
+          </div>
 
           {/* {route.page !== "home" && (
             <LanguageSelector language={language} onChange={setLanguage} t={t} />
@@ -2012,7 +2456,16 @@ const handleAudioEnded = () => {
                     {selectedMosque.city}, {selectedMosque.country}
                   </p>
                   <p>{selectedMosque.detail}</p>
-                  <small>{selectedMosque.period}</small>
+                  <dl className="mosque-facts">
+                    <div>
+                      <dt>Year built</dt>
+                      <dd>{selectedMosque.yearBuilt}</dd>
+                    </div>
+                    <div>
+                      <dt>Built by</dt>
+                      <dd>{selectedMosque.builtBy}</dd>
+                    </div>
+                  </dl>
                   <a
                     href={selectedMosque.source}
                     target="_blank"
@@ -2025,7 +2478,7 @@ const handleAudioEnded = () => {
             ) : (
               <SelectionPanel
                 empty="Choose a mosque"
-                description="Select a mosque above to see its image, location, history, and dates."
+                description="Select a mosque above to see its location, construction history, and details."
               />
             )}
           </>
@@ -2246,14 +2699,17 @@ const handleAudioEnded = () => {
               <div className="simple-grid">
                 {caliphs.map((name) => (
                   <button
-                    className={`simple-card ${
+                    className={`simple-card caliph-card ${
                       selectedCaliph === name ? "selected" : ""
                     }`}
                     key={name}
                     onClick={() => setSelectedCaliph(name)}
                   >
-                    {name}
-                    <span className="chevron">›</span>
+                    <span className="sahaba-icon" aria-hidden="true">
+                      {companionIcons[name] || "👑"}
+                    </span>
+                    <span>{name}</span>
+                    <span className="chevron" aria-hidden="true">›</span>
                   </button>
                 ))}
               </div>
@@ -2315,6 +2771,8 @@ const handleAudioEnded = () => {
             onSelectPage={setSelectedHadithPage}
           />
         )}
+
+        {route.page === "dua-dhikr" && <DuaDhikrPage showHero={showHero} />}
 
         {route.page === "wallpapers" && (
           <WallpaperPage showHero={showHero} />
@@ -2710,10 +3168,19 @@ function FeedbackSection({ t }) {
         <span className="eyebrow">{t("feedbackTitle")}</span>
       </div>
       <div className="feedback-testimonials" aria-label="Reader feedback">
-        {communityFeedbacks.map((item, index) => (
-          <article className="feedback-testimonial" key={index}>
+        {communityFeedbacks.map((item) => (
+          <article className="feedback-testimonial" key={item.name}>
             <p>“{item.quote}”</p>
-            <span>{item.name}</span>
+            <div className="feedback-reviewer">
+              <span>{item.name}</span>
+              <div
+                className="feedback-testimonial-rating"
+                role="img"
+                aria-label={`${item.rating} out of 5 stars`}
+              >
+                {"★".repeat(item.rating)}
+              </div>
+            </div>
           </article>
         ))}
       </div>
@@ -2892,6 +3359,60 @@ function PillarsPage({ page, showHero, items }) {
   );
 }
 
+function DuaDhikrPage({ showHero }) {
+  const [selectedTab, setSelectedTab] = useState("dua");
+  const tabs = [
+    { id: "dua", label: "Dua" },
+    { id: "dhikr", label: "Dhikr" },
+  ];
+
+  return (
+    <>
+      {showHero("dua-dhikr")}
+      <div className="dua-dhikr-tabs" role="tablist" aria-label="Dua and Dhikr">
+        {tabs.map((tab) => (
+          <button
+            aria-controls="dua-dhikr-panel"
+            aria-selected={selectedTab === tab.id}
+            className="dua-dhikr-tab"
+            id={`dua-dhikr-tab-${tab.id}`}
+            key={tab.id}
+            onClick={() => setSelectedTab(tab.id)}
+            role="tab"
+            tabIndex={selectedTab === tab.id ? 0 : -1}
+            type="button"
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+      <section
+        aria-labelledby={`dua-dhikr-tab-${selectedTab}`}
+        className="dua-dhikr-list"
+        id="dua-dhikr-panel"
+        role="tabpanel"
+        tabIndex={0}
+      >
+        {duaDhikrContent[selectedTab].map((item, index) => (
+          <article className="dua-dhikr-card panel" key={item.title}>
+            <span className="dua-dhikr-number" aria-label={`Item ${index + 1}`}>
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <h2>{item.title}</h2>
+            <p className="dua-dhikr-arabic" dir="rtl" lang="ar">
+              {item.arabic}
+            </p>
+            <p className="dua-dhikr-english" lang="en">
+              {item.english}
+            </p>
+            <small className="dua-dhikr-reference">{item.reference}</small>
+          </article>
+        ))}
+      </section>
+    </>
+  );
+}
+
 function TopicPage({ page, showHero, sections }) {
   return (
     <>
@@ -2948,15 +3469,9 @@ function HadithPage({
           </button>
         ))}
       </div>
-      <section
-        className="hadith-post-grid"
-        aria-label={`${book.name} hadiths`}
-      >
+      <section className="hadith-post-grid" aria-label={`${book.name} hadiths`}>
         {pageHadiths.map((hadith, index) => (
-          <article
-            className="panel hadith-post-card"
-            key={`${book.id}-${hadith.number}`}
-          >
+          <article className="panel hadith-post-card" key={`${book.id}-${hadith.number}`}>
             <span className="hadith-serial">Hadith {pageStart + index + 1}</span>
             <p className="hadith-summary">{hadith.summary}</p>
             <p className="hadith-reference">
@@ -3013,7 +3528,7 @@ const wallpaperWidth = 2160;
 const wallpaperHeight = 3840;
 const wallpaperAspectRatio = wallpaperWidth / wallpaperHeight;
 
-async function fetchWallpapers(offset, signal) {
+async function fetchWallpapers(signal) {
   const url = new URL("https://commons.wikimedia.org/w/api.php");
   url.search = new URLSearchParams({
     action: "query",
@@ -3026,7 +3541,6 @@ async function fetchWallpapers(offset, signal) {
     iiurlwidth: "900",
     format: "json",
     origin: "*",
-    ...(offset ? { gsroffset: String(offset) } : {}),
   });
 
   const response = await fetch(url, { signal });
@@ -3069,10 +3583,58 @@ async function fetchWallpapers(offset, signal) {
     ];
   });
 
-  return {
-    wallpapers,
-    nextOffset: result.continue?.gsroffset ?? null,
-  };
+  return { wallpapers };
+}
+
+function chooseWallpapersForRefresh(candidates) {
+  const randomized = [...candidates];
+  for (let index = randomized.length - 1; index > 0; index -= 1) {
+    const swapIndex = Math.floor(Math.random() * (index + 1));
+    [randomized[index], randomized[swapIndex]] = [
+      randomized[swapIndex],
+      randomized[index],
+    ];
+  }
+
+  let warning = "";
+  let previousIds = [];
+  try {
+    const storedIds = window.sessionStorage.getItem("islam24-wallpapers");
+    if (storedIds) {
+      const parsedIds = JSON.parse(storedIds);
+      if (!Array.isArray(parsedIds)) {
+        throw new Error("The saved wallpaper list has an invalid format.");
+      }
+      previousIds = parsedIds;
+    }
+  } catch {
+    warning =
+      "Could not remember the previous wallpaper set in this browser, so a refresh may repeat images.";
+  }
+
+  const previousSet = new Set(previousIds);
+  const selected = randomized.filter((wallpaper) => !previousSet.has(wallpaper.id));
+  const selectedWallpapers = selected.slice(0, 6);
+  if (selectedWallpapers.length < 6) {
+    const selectedIds = new Set(selectedWallpapers.map((wallpaper) => wallpaper.id));
+    selectedWallpapers.push(
+      ...randomized
+        .filter((wallpaper) => !selectedIds.has(wallpaper.id))
+        .slice(0, 6 - selectedWallpapers.length),
+    );
+  }
+
+  try {
+    window.sessionStorage.setItem(
+      "islam24-wallpapers",
+      JSON.stringify(selectedWallpapers.map((wallpaper) => wallpaper.id)),
+    );
+  } catch {
+    warning =
+      "Could not remember the previous wallpaper set in this browser, so a refresh may repeat images.";
+  }
+
+  return { wallpapers: selectedWallpapers, warning };
 }
 
 async function downloadWallpaper(wallpaper) {
@@ -3138,26 +3700,25 @@ async function downloadWallpaper(wallpaper) {
 
 function WallpaperPage({ showHero }) {
   const [wallpapers, setWallpapers] = useState([]);
-  const [nextOffset, setNextOffset] = useState(null);
   const [retryKey, setRetryKey] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [error, setError] = useState("");
   const [downloadError, setDownloadError] = useState("");
+  const [selectionWarning, setSelectionWarning] = useState("");
   const [downloadingId, setDownloadingId] = useState(null);
-  const requestRef = useRef(null);
 
   useEffect(() => {
     const controller = new AbortController();
-    requestRef.current = controller;
     setIsLoading(true);
     setError("");
+    setSelectionWarning("");
     setWallpapers([]);
-    setNextOffset(null);
-    fetchWallpapers(0, controller.signal)
-      .then(({ wallpapers: nextWallpapers, nextOffset: offset }) => {
+    fetchWallpapers(controller.signal)
+      .then(({ wallpapers: candidates }) => {
+        const { wallpapers: nextWallpapers, warning } =
+          chooseWallpapersForRefresh(candidates);
         setWallpapers(nextWallpapers);
-        setNextOffset(offset);
+        setSelectionWarning(warning);
       })
       .catch((requestError) => {
         if (requestError.name !== "AbortError") setError(requestError.message);
@@ -3168,33 +3729,6 @@ function WallpaperPage({ showHero }) {
 
     return () => controller.abort();
   }, [retryKey]);
-
-  const loadMore = async () => {
-    if (nextOffset === null || isLoadingMore) return;
-
-    const controller = new AbortController();
-    requestRef.current?.abort();
-    requestRef.current = controller;
-    setIsLoadingMore(true);
-    setError("");
-
-    try {
-      const { wallpapers: nextWallpapers, nextOffset: offset } =
-        await fetchWallpapers(nextOffset, controller.signal);
-      setWallpapers((current) => {
-        const existingIds = new Set(current.map((wallpaper) => wallpaper.id));
-        return [
-          ...current,
-          ...nextWallpapers.filter((wallpaper) => !existingIds.has(wallpaper.id)),
-        ];
-      });
-      setNextOffset(offset);
-    } catch (requestError) {
-      if (requestError.name !== "AbortError") setError(requestError.message);
-    } finally {
-      if (!controller.signal.aborted) setIsLoadingMore(false);
-    }
-  };
 
   const handleDownload = async (wallpaper) => {
     setDownloadingId(wallpaper.id);
@@ -3223,6 +3757,11 @@ function WallpaperPage({ showHero }) {
             Try again
           </button>
         </div>
+      )}
+      {selectionWarning && (
+        <p className="wallpaper-error" role="status">
+          {selectionWarning}
+        </p>
       )}
       {!isLoading && !error && wallpapers.length === 0 && (
         <p className="wallpaper-empty">
@@ -3271,18 +3810,6 @@ function WallpaperPage({ showHero }) {
           </article>
         ))}
       </div>
-      {nextOffset !== null && !isLoading && (
-        <div className="wallpaper-load-more">
-          <button
-            className="secondary-button"
-            type="button"
-            onClick={loadMore}
-            disabled={isLoadingMore}
-          >
-            {isLoadingMore ? "Finding more images…" : "Load more wallpapers"}
-          </button>
-        </div>
-      )}
     </>
   );
 }

@@ -1524,7 +1524,7 @@ export const communityFeedbacks = [
   },
   {
     quote:
-      " I appreciate having Quran, hadith, and other resources together in one place. ",
+      " I appreciate having Quran, hadith, and learning resources together in one place. ",
     name: "- Khalid Arshad",
   },
   {
@@ -1533,7 +1533,7 @@ export const communityFeedbacks = [
     name: "- Hamza Khan",
   },
   {
-    quote: " A useful companion for learning a little more every day. ",
+    quote: "A useful companion for learning a little more every day. ",
     name: "- Arshad Waseem",
   },
 ];
