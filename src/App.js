@@ -2918,6 +2918,7 @@ const handleAudioEnded = () => {
         language={language}
         t={t}
       />
+      <ScrollProgressButton />
 
       {/* <nav className="bottom-nav" aria-label="Quick navigation">
         {[
@@ -3253,6 +3254,67 @@ function SiteFooter({ logo, onNavigate, t }) {
         Copyright © {new Date().getFullYear()} Islam24. {t("copyright")}
       </div>
     </footer>
+  );
+}
+
+function ScrollProgressButton() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const updateScrollState = () => {
+      const scrollableHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const scrollTop = window.scrollY;
+      setProgress(
+        scrollableHeight > 0
+          ? Math.min(1, Math.max(0, scrollTop / scrollableHeight))
+          : 0,
+      );
+    };
+
+    updateScrollState();
+    window.addEventListener("scroll", updateScrollState, { passive: true });
+    window.addEventListener("resize", updateScrollState);
+    return () => {
+      window.removeEventListener("scroll", updateScrollState);
+      window.removeEventListener("resize", updateScrollState);
+    };
+  }, []);
+
+  const circumference = 2 * Math.PI * 28;
+  return (
+    <button
+      className="scroll-progress-button"
+      type="button"
+      aria-label={`Go to top. Page ${Math.round(progress * 100)}% scrolled`}
+      title="Go to top"
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+    >
+      <svg
+        className="scroll-progress-arrow"
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M12 19V5" />
+        <path d="m5 12 7-7 7 7" />
+      </svg>
+      <svg aria-hidden="true" viewBox="0 0 64 64">
+        <circle className="scroll-progress-track" cx="32" cy="32" r="28" />
+        <circle
+          className="scroll-progress-value"
+          cx="32"
+          cy="32"
+          r="28"
+          strokeDasharray={circumference}
+          strokeDashoffset={circumference * (1 - progress)}
+        />
+      </svg>
+    </button>
   );
 }
 
