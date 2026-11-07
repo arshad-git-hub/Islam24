@@ -1,18 +1,21 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import logo from "./logo2.png"
-import "./App.css";
 import {
   allahNames,
   battleProfiles,
   battleSections,
   bookTitles,
   boysNames,
+  communityFeedbacks,
   companionProfiles,
   girlsNames,
+  hadithBooks,
+  hadithsByBook,
   mosques,
   prophetNames,
   prophetProfiles,
 } from "./islamicData";
+import "./App.css";
 
 const photos = {
   mosque:
@@ -332,88 +335,8 @@ const categories = [
   ["📚", "Books", "books"],
   ["👑", "Caliphs", "caliphs"],
   ["🤝", "Sahaba", "sahaba"],
-  ["⋯", "All", "other"],
+  ["🖼️", "Walls", "wallpapers"],
 ];
-
-const hadithBooks = [
-  { id: "bukhari", label: "Bukhari", name: "Sahih al-Bukhari", icon: "📕" },
-  { id: "muslim", label: "Muslim", name: "Sahih Muslim", icon: "📗" },
-  { id: "abudawud", label: "Abu Dawud", name: "Sunan Abi Dawud", icon: "📘" },
-  { id: "tirmidhi", label: "Tirmidhi", name: "Jami at-Tirmidhi", icon: "📙" },
-  { id: "nasai", label: "An-Nasa'i", name: "Sunan an-Nasa'i", icon: "📔" },
-  { id: "ibnmajah", label: "Ibn Majah", name: "Sunan Ibn Majah", icon: "📒" },
-];
-
-const hadithsByBook = {
-  bukhari: [
-    {
-      number: "1",
-      summary:
-        "Deeds are judged by their intentions, and each person receives according to what they intended.",
-      status: "Sahih",
-      url: "https://sunnah.com/bukhari:1",
-    },
-    {
-      number: "13",
-      summary:
-        "Faith includes wishing for others the good that one wishes for oneself.",
-      status: "Sahih",
-      url: "https://sunnah.com/bukhari:13",
-    },
-    {
-      number: "69",
-      summary:
-        "The Prophet ﷺ taught people to make matters easy and not drive them away.",
-      status: "Sahih",
-      url: "https://sunnah.com/bukhari:69",
-    },
-  ],
-  muslim: [
-    {
-      number: "2699",
-      summary:
-        "Helping others, seeking knowledge, and gathering to learn the Quran are connected with divine support and mercy.",
-      status: "Sahih",
-      url: "https://sunnah.com/muslim:2699",
-    },
-  ],
-  abudawud: [
-    {
-      number: "4607",
-      summary:
-        "In times of disagreement, the Prophet ﷺ advised holding firmly to his Sunnah and the way of the rightly guided caliphs.",
-      status: "Sahih (al-Albani)",
-      url: "https://sunnah.com/abudawud:4607",
-    },
-  ],
-  tirmidhi: [
-    {
-      number: "1924",
-      summary:
-        "Those who show mercy to others are shown mercy by the Most Merciful.",
-      status: "Hasan Sahih",
-      url: "https://sunnah.com/tirmidhi:1924",
-    },
-  ],
-  nasai: [
-    {
-      number: "4998",
-      summary:
-        "The narration describes how accepting Islam brings reward for earlier good deeds and forgiveness for earlier wrongs.",
-      status: "Sahih",
-      url: "https://sunnah.com/nasai:4998",
-    },
-  ],
-  ibnmajah: [
-    {
-      number: "224",
-      summary:
-        "A narration emphasizes seeking knowledge as an important responsibility for Muslims.",
-      status: "Grading varies",
-      url: "https://sunnah.com/ibnmajah",
-    },
-  ],
-};
 
 const posts = [
   {
@@ -659,12 +582,31 @@ const postsPerPage = 8;
 const postsPageCount = Math.ceil(posts.length / postsPerPage);
 
 const prayers = [
-  { icon: "🌅", name: "Fajr", time: "05:15 AM", minutes: 307 },
-  { icon: "☀️", name: "Dhuhr", time: "01:15 PM", minutes: 726 },
-  { icon: "🌤️", name: "Asr", time: "03:20 PM", minutes: 921 },
-  { icon: "🌇", name: "Maghrib", time: "05:25 PM", minutes: 1065 },
-  { icon: "🌙", name: "Isha", time: "08:00 PM", minutes: 1144 },
+  { icon: "🌅", name: "Fajr", time: "05:25 AM", minutes: 315 },
+  { icon: "☀️", name: "Dhuhr", time: "01:15 PM", minutes: 795 },
+  { icon: "🌤️", name: "Asr", time: "03:20 PM", minutes: 920 },
+  { icon: "🌇", name: "Maghrib", time: "05:20 PM", minutes: 1045 },
+  { icon: "🌙", name: "Isha", time: "07:45 PM", minutes: 1200 },
 ];
+
+const sunTimesLocation = {
+  latitude: 27.30195,
+  longitude: 83.09633,
+};
+
+function formatSunTime(value) {
+  const match = typeof value === "string" && value.match(/T(\d{2}):(\d{2})/);
+  if (!match) {
+    throw new Error("The sun-times service returned an invalid time.");
+  }
+  const hour = Number(match[1]);
+  if (hour < 0 || hour > 23) {
+    throw new Error("The sun-times service returned an invalid time.");
+  }
+  return `${String(hour % 12 || 12).padStart(2, "0")}:${match[2]} ${
+    hour >= 12 ? "PM" : "AM"
+  }`;
+}
 
 const pagePaths = {
   home: "/",
@@ -688,6 +630,7 @@ const pagePaths = {
   posts: "/posts",
   other: "/other",
   hadiths: "/hadiths",
+  wallpapers: "/wallpapers",
   namaz: "/namaz",
   hajj: "/hajj",
   umrah: "/umrah",
@@ -737,6 +680,7 @@ const pageInfo = {
   muhaddis: ["PRESERVERS OF HADITH", "Muhaddis", photos.library],
   miracles: ["SIGNS BY ALLAH'S PERMISSION", "Miracles in Islam", photos.quran],
   "short-stories": ["AUTHENTIC NARRATIONS", "Short Stories", photos.library],
+  wallpapers: ["ISLAMIC WALLPAPERS", "Phone wallpapers", photos.mosque],
 };
 
 const pageDescriptions = {
@@ -765,6 +709,8 @@ const pageDescriptions = {
   other: "Browse all learning topics and sections.",
   hadiths:
     "Browse narrations from six well-known hadith collections. Numbering and grading can differ between editions and scholars.",
+  wallpapers:
+    "Download high-resolution Islamic wallpapers, cropped for a 9:16 phone screen.",
   namaz: "A basic introduction to the five daily prayers and their form.",
   hajj: "An introductory guide to Hajj from the Quran and authentic Sunnah.",
   umrah: "An introductory guide to Umrah; ask a qualified guide about rulings.",
@@ -787,6 +733,7 @@ const allCategories = [
   ["👑", "Caliphs", "caliphs"],
   ["🤲", "Donate", "donate"],
   ["📜", "Hadiths", "hadiths"],
+  ["🖼️", "Wallpapers", "wallpapers"],
   ["🕋", "Hajj", "hajj"],
   ["📜", "History of Islam", "history-of-islam"],
   ["✨", "Miracles in Islam", "miracles"],
@@ -1025,6 +972,7 @@ const prophetIcons = {
 };
 
 const companions = Object.keys(companionProfiles);
+
 const companionIcons = {
   "Abu Bakr as-Siddiq RA": "🕊️",
   "Umar ibn al-Khattab RA": "⚖️",
@@ -1305,11 +1253,15 @@ function App() {
   const [selectedCaliph, setSelectedCaliph] = useState("");
   const [selectedMosque, setSelectedMosque] = useState(null);
   const [selectedHadithBook, setSelectedHadithBook] = useState("bukhari");
+  const [selectedHadithPage, setSelectedHadithPage] = useState(1);
   const [postsPage, setPostsPage] = useState(1);
   const [now, setNow] = useState(() => new Date());
   const [language, setLanguage] = useState(readLanguage);
-  const [feedback, setFeedback] = useState("");
-  const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [sunTimes, setSunTimes] = useState({
+    sunrise: "--:--",
+    sunset: "--:--",
+  });
+  const [sunTimesError, setSunTimesError] = useState("");
   const [profile, setProfile] = useState(readProfile);
   const [profileOpen, setProfileOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(
@@ -1371,6 +1323,49 @@ useEffect(() => {
 useEffect(() => {
   const timer = window.setInterval(() => setNow(new Date()), 30_000);
   return () => window.clearInterval(timer);
+}, []);
+
+useEffect(() => {
+  const controller = new AbortController();
+  const url = new URL("https://api.open-meteo.com/v1/forecast");
+  url.search = new URLSearchParams({
+    latitude: String(sunTimesLocation.latitude),
+    longitude: String(sunTimesLocation.longitude),
+    daily: "sunrise,sunset",
+    timezone: "Asia/Kolkata",
+    forecast_days: "1",
+  }).toString();
+
+  const loadSunTimes = async () => {
+    try {
+      const response = await fetch(url, { signal: controller.signal });
+      if (!response.ok) {
+        throw new Error("The sun-times service could not be reached.");
+      }
+      const result = await response.json();
+      const sunrise = result.daily?.sunrise?.[0];
+      const sunset = result.daily?.sunset?.[0];
+      if (!sunrise || !sunset) {
+        throw new Error("The sun-times service returned incomplete data.");
+      }
+      setSunTimes({
+        sunrise: formatSunTime(sunrise),
+        sunset: formatSunTime(sunset),
+      });
+      setSunTimesError("");
+    } catch (error) {
+      if (error.name !== "AbortError") {
+        setSunTimesError("Sunrise and sunset could not be loaded.");
+      }
+    }
+  };
+
+  loadSunTimes();
+  const timer = window.setInterval(loadSunTimes, 24 * 60 * 60 * 1000);
+  return () => {
+    window.clearInterval(timer);
+    controller.abort();
+  };
 }, []);
 
 useEffect(() => {
@@ -1519,6 +1514,9 @@ useEffect(() => {
 const showHero = (page, title) => {
   const [eyebrow, defaultTitle, image] = pageInfo[page] || [];
   return (
+
+    // HEADER
+    
     <header
       className={`page-hero ${page}`}
       style={image ? { "--hero-image": `url("${image}")` } : undefined}
@@ -1607,7 +1605,7 @@ const handleAudioEnded = () => {
   return (
     <div className="app-shell">
 
-      <LiveDateStrip language={language} />
+      <LiveDateStrip />
 
       {/* NAVBAR */}
       <header className="topbar">
@@ -1618,21 +1616,6 @@ const handleAudioEnded = () => {
         </div>
 
         <div className="topbar-actions">
-
-          <button className="donate-btn" onClick={() => navigate("donate")} aria-current={route.page === "donate" ? "page" : undefined}>
-            <span>🤲 {t("donate")}</span>
-          </button>
-
-          <label className="language-control">
-            <span className="sr-only">{t("language")}</span>
-            <select value={language} onChange={(event) => setLanguage(event.target.value)} aria-label={("language")} >
-              {languageOptions.map(([code, label]) => (
-                <option key={code} value={code}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </label>
 
           <button
             className="theme-toggle"
@@ -1660,6 +1643,16 @@ const handleAudioEnded = () => {
               )}
             </svg>
           </button>
+
+          <button className="donate-btn" onClick={() => navigate("donate")} aria-current={route.page === "donate" ? "page" : undefined}>
+            <span>🤲 {t("donate")}</span>
+          </button>
+
+          {/* {route.page !== "home" && (
+            <LanguageSelector language={language} onChange={setLanguage} t={t} />
+          )} */}
+
+
         </div>
 
       </header>
@@ -1679,6 +1672,9 @@ const handleAudioEnded = () => {
             <HomePrayerOverview
               nightPrayerTimes={nightPrayerTimes}
               language={language}
+              onLanguageChange={setLanguage}
+              sunTimes={sunTimes}
+              sunTimesError={sunTimesError}
               t={t}
             />
             <section className="section-block prayer-home-section">
@@ -1728,26 +1724,7 @@ const handleAudioEnded = () => {
               <DailyHadith t={t} />
             </section>
 
-            <FeedbackSection
-              feedback={feedback}
-              setFeedback={setFeedback}
-              message={feedbackMessage}
-              onSubmit={(event) => {
-                event.preventDefault();
-                try {
-                  window.sessionStorage.setItem("islam24-feedback", feedback);
-                  setFeedbackMessage(t("feedbackSaved"));
-                  setFeedback("");
-                } catch {
-                  setFeedbackMessage(
-                    language === "en"
-                      ? "Could not save feedback in this browser."
-                      : t("feedbackSaveError"),
-                  );
-                }
-              }}
-              t={t}
-            />
+            <FeedbackSection t={t} />
 
             <section className="home-posts-section">
               <div className="section-heading">
@@ -1803,14 +1780,14 @@ const handleAudioEnded = () => {
                   🌄
                 </span>
                 <strong>Sunrise</strong>
-                <span>05:58 AM</span>
+                <span>{sunTimes.sunrise}</span>
               </div>
               <div className="prayer-row auxiliary-prayer">
                 <span className="prayer-emoji" aria-hidden="true">
                   🌅
                 </span>
                 <strong>Sunset</strong>
-                <span>05:22 PM</span>
+                <span>{sunTimes.sunset}</span>
               </div>
               {nightPrayerTimes.map((prayer) => (
                 <div className="prayer-row auxiliary-prayer" key={prayer.name}>
@@ -1822,6 +1799,11 @@ const handleAudioEnded = () => {
                 </div>
               ))}
             </section>
+            {sunTimesError && (
+              <p className="sun-times-error" role="status">
+                {sunTimesError}
+              </p>
+            )}
           </>
         )}
 
@@ -2325,8 +2307,17 @@ const handleAudioEnded = () => {
           <HadithPage
             showHero={showHero}
             selectedBook={selectedHadithBook}
-            onSelectBook={setSelectedHadithBook}
+            selectedPage={selectedHadithPage}
+            onSelectBook={(bookId) => {
+              setSelectedHadithBook(bookId);
+              setSelectedHadithPage(1);
+            }}
+            onSelectPage={setSelectedHadithPage}
           />
+        )}
+
+        {route.page === "wallpapers" && (
+          <WallpaperPage showHero={showHero} />
         )}
 
         {topicContent[route.page] && (
@@ -2590,41 +2581,74 @@ function useLiveNow() {
   return now;
 }
 
-function LiveDateStrip({ language }) {
+function LiveDateStrip() {
   const now = useLiveNow();
-  const locale = language === "en" ? "en-IN" : language;
+  const indianDate = new Intl.DateTimeFormat("en-IN", {
+    weekday: "short",
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(now);
+  const islamicDate = new Intl.DateTimeFormat("en-IN", {
+    calendar: "islamic-umalqura",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(now);
 
   return (
     <div className="top-info-bar">
-      <time dateTime={now.toISOString()}>
-        {now.toLocaleTimeString(locale, {
-          hour: "2-digit",
-          minute: "2-digit",
-          second: "2-digit",
-        })}
+      <time dateTime={now.toISOString()} aria-label={`Gregorian date: ${indianDate}`}>
+        {indianDate}
       </time>
-      <time dateTime={now.toISOString()}>
-        {now.toLocaleDateString(locale, {
-          weekday: "long",
-          day: "numeric",
-          month: "long",
-          year: "numeric",
-        })}
+      <time dateTime={now.toISOString()} aria-label={`Islamic date: ${islamicDate}`}>
+        {islamicDate}
       </time>
     </div>
   );
 }
 
-function HomePrayerOverview({ nightPrayerTimes, language, t }) {
+function LanguageSelector({ language, onChange, t }) {
+  return (
+    <label className="language-control">
+      <span className="sr-only">{t("language")}</span>
+      <select
+        value={language}
+        onChange={(event) => onChange(event.target.value)}
+        aria-label={t("language")}
+      >
+        {languageOptions.map(([code, label]) => (
+          <option key={code} value={code}>
+            {label}
+          </option>
+        ))}
+      </select>
+    </label>
+  );
+}
+
+function HomePrayerOverview({
+  nightPrayerTimes,
+  language,
+  onLanguageChange,
+  sunTimes,
+  sunTimesError,
+  t,
+}) {
   const now = useLiveNow();
   const locale = language === "en" ? "en-IN" : language;
+  const currentTimeFormatter = new Intl.DateTimeFormat(locale, {
+    hour: "numeric",
+    minute: "2-digit",
+  });
+  const currentTimeParts = currentTimeFormatter.formatToParts(now);
   const nightTimes = nightPrayerTimes.map((prayer) => ({
     ...prayer,
     title: t(prayer.name === "Tahajjud" ? "tahajjud" : "midnight"),
   }));
   const times = [
-    { title: t("sunrise"), time: "05:58 AM", icon: "🌅" },
-    { title: t("sunset"), time: "05:22 PM", icon: "🌇" },
+    { title: t("sunrise"), time: sunTimes.sunrise, icon: "🌅" },
+    { title: t("sunset"), time: sunTimes.sunset, icon: "🌇" },
     ...nightTimes.map((prayer) => ({
       title: prayer.title,
       time: prayer.time,
@@ -2638,65 +2662,74 @@ function HomePrayerOverview({ nightPrayerTimes, language, t }) {
       style={{ "--prayer-overview-image": `url("${photos.sunrise}")` }}
       aria-label="Current time and daily prayer times"
     >
+      <LanguageSelector
+        language={language}
+        onChange={onLanguageChange}
+        t={t}
+      />
       <div className="prayer-overview-current">
-        <span className="eyebrow">{t("currentTime")}</span>
+        <span className="eyebrow">📍Naugarh</span>
         <time dateTime={now.toISOString()}>
-          {now.toLocaleTimeString(locale, {
-            hour: "numeric",
-            minute: "2-digit",
-          })}
+          {currentTimeParts.map((part, index) =>
+            part.type === "dayPeriod" ? (
+              <small className="time-period" key={index}>
+                {part.value}
+              </small>
+            ) : (
+              part.value
+            ),
+          )}
         </time>
       </div>
       <div className="prayer-overview-times">
         {times.map((item) => (
           <div className="prayer-overview-time" key={item.title}>
-            <span aria-hidden="true">{item.icon}</span>
-            <small>{item.title}</small>
-            <strong>{item.time}</strong>
+            <div>
+              <span aria-hidden="true">{item.icon}</span>
+            </div>
+            <div>
+              <small>{item.title}</small>
+              <strong>{item.time}</strong>
+            </div>
           </div>
+        ))}
+      </div>
+      {sunTimesError && (
+        <p className="sun-times-error" role="status">
+          {sunTimesError}
+        </p>
+      )}
+    </section>
+  );
+}
+
+function FeedbackSection({ t }) {
+  return (
+    <section className="feedback-section panel">
+      <div className="feedback-heading">
+        <span className="eyebrow">{t("feedbackTitle")}</span>
+      </div>
+      <div className="feedback-testimonials" aria-label="Reader feedback">
+        {communityFeedbacks.map((item, index) => (
+          <article className="feedback-testimonial" key={index}>
+            <p>“{item.quote}”</p>
+            <span>{item.name}</span>
+          </article>
         ))}
       </div>
     </section>
   );
 }
 
-function FeedbackSection({ feedback, setFeedback, message, onSubmit, t }) {
-  return (
-    <section className="feedback-section panel">
-      <div>
-        <span className="eyebrow">{t("feedbackTitle")}</span>
-        <p>{t("feedbackDescription")}</p>
-        <small>{t("feedbackPrivacy")}</small>
-      </div>
-      <form onSubmit={onSubmit}>
-        <label className="sr-only" htmlFor="homepage-feedback">
-          {t("feedbackPlaceholder")}
-        </label>
-        <textarea
-          id="homepage-feedback"
-          value={feedback}
-          onChange={(event) => {
-            setFeedback(event.target.value);
-          }}
-          placeholder={t("feedbackPlaceholder")}
-          maxLength={1000}
-          required
-        />
-        <button className="primary-button" type="submit" disabled={!feedback.trim()}>
-          {t("saveFeedback")}
-        </button>
-        {message && (
-          <p className="feedback-status" role="status">
-            {message}
-          </p>
-        )}
-      </form>
-    </section>
-  );
-}
-
 function SiteFooter({ logo, onNavigate, t }) {
-  const pageLinks = [
+  const primaryLinks = [
+    ["home", "Home"],
+    ["quran", "Quran"],
+    ["hadiths", "Hadith"],
+    ["prayer", "Prayer times"],
+    ["posts", "Articles"],
+  ];
+  const secondaryLinks = [
     ["about", "aboutUs"],
     ["help", "help"],
     ["privacy", "privacy"],
@@ -2706,13 +2739,30 @@ function SiteFooter({ logo, onNavigate, t }) {
   return (
     <footer className="site-footer">
       <div className="site-footer-content">
-        <div className="site-footer-brand">
+        <button
+          className="site-footer-brand"
+          type="button"
+          onClick={() => onNavigate("home")}
+          aria-label="Islam24 home"
+        >
           <img src={logo} alt="Islam24" />
-          <p>{t("tagline")}</p>
-        </div>
-        <nav className="site-footer-links" aria-label={t("footerExplore")}>
-          <h2>{t("footerExplore")}</h2>
-          {pageLinks.map(([page, key]) => (
+        </button>
+        <nav className="site-footer-links" aria-label="Main footer links">
+          {primaryLinks.map(([page, label]) => (
+            <a
+              href={pagePaths[page]}
+              key={page}
+              onClick={(event) => {
+                event.preventDefault();
+                onNavigate(page);
+              }}
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
+        <nav className="site-footer-legal" aria-label="Legal and help links">
+          {secondaryLinks.map(([page, key]) => (
             <a
               href={pagePaths[page]}
               key={page}
@@ -2724,16 +2774,13 @@ function SiteFooter({ logo, onNavigate, t }) {
               {t(key)}
             </a>
           ))}
-          <a
-            href={pagePaths.donate}
-            onClick={(event) => {
-              event.preventDefault();
-              onNavigate("donate");
-            }}
-          >
-            {t("donate")}
-          </a>
         </nav>
+        <div className="site-footer-socials" aria-hidden="true">
+          <span>f</span>
+          <span>𝕏</span>
+          <span>◎</span>
+          <span>▶</span>
+        </div>
       </div>
       <div className="site-footer-copyright">
         Copyright © {new Date().getFullYear()} Islam24. {t("copyright")}
@@ -2864,12 +2911,24 @@ function TopicPage({ page, showHero, sections }) {
   );
 }
 
-function HadithPage({ showHero, selectedBook, onSelectBook }) {
+function HadithPage({
+  showHero,
+  selectedBook,
+  selectedPage,
+  onSelectBook,
+  onSelectPage,
+}) {
   const book = hadithBooks.find((item) => item.id === selectedBook);
 
   if (!book) {
     throw new Error(`Unknown hadith collection: "${selectedBook}".`);
   }
+
+  const hadiths = hadithsByBook[book.id];
+  const pageSize = 10;
+  const pageCount = Math.ceil(hadiths.length / pageSize);
+  const pageStart = (selectedPage - 1) * pageSize;
+  const pageHadiths = hadiths.slice(pageStart, pageStart + pageSize);
 
   return (
     <>
@@ -2893,16 +2952,337 @@ function HadithPage({ showHero, selectedBook, onSelectBook }) {
         className="hadith-post-grid"
         aria-label={`${book.name} hadiths`}
       >
-        {hadithsByBook[book.id].map((hadith) => (
-          <article className="panel hadith-post-card" key={hadith.number}>
+        {pageHadiths.map((hadith, index) => (
+          <article
+            className="panel hadith-post-card"
+            key={`${book.id}-${hadith.number}`}
+          >
+            <span className="hadith-serial">Hadith {pageStart + index + 1}</span>
             <p className="hadith-summary">{hadith.summary}</p>
             <p className="hadith-reference">
-              <strong>Hadith:</strong> {book.label} {hadith.number},{" "}
+              <strong>Reference:</strong> {book.label} {hadith.number},{" "}
               <strong>Status:</strong> {hadith.status}
             </p>
           </article>
         ))}
       </section>
+      {pageCount > 1 && (
+        <nav
+          className="posts-pagination hadith-pagination"
+          aria-label={`${book.name} hadith pages`}
+        >
+          <button
+            type="button"
+            onClick={() => onSelectPage((page) => Math.max(1, page - 1))}
+            disabled={selectedPage === 1}
+            aria-label="Previous hadith page"
+          >
+            Previous
+          </button>
+          {Array.from({ length: pageCount }, (_, index) => index + 1).map(
+            (page) => (
+              <button
+                type="button"
+                key={page}
+                className={selectedPage === page ? "selected" : ""}
+                onClick={() => onSelectPage(page)}
+                aria-current={selectedPage === page ? "page" : undefined}
+                aria-label={`Hadith page ${page}`}
+              >
+                {page}
+              </button>
+            ),
+          )}
+          <button
+            type="button"
+            onClick={() =>
+              onSelectPage((page) => Math.min(pageCount, page + 1))
+            }
+            disabled={selectedPage === pageCount}
+            aria-label="Next hadith page"
+          >
+            Next
+          </button>
+        </nav>
+      )}
+    </>
+  );
+}
+
+const wallpaperWidth = 2160;
+const wallpaperHeight = 3840;
+const wallpaperAspectRatio = wallpaperWidth / wallpaperHeight;
+
+async function fetchWallpapers(offset, signal) {
+  const url = new URL("https://commons.wikimedia.org/w/api.php");
+  url.search = new URLSearchParams({
+    action: "query",
+    generator: "search",
+    gsrsearch: "mosque filetype:bitmap",
+    gsrnamespace: "6",
+    gsrlimit: "50",
+    prop: "imageinfo",
+    iiprop: "url|size|extmetadata",
+    iiurlwidth: "900",
+    format: "json",
+    origin: "*",
+    ...(offset ? { gsroffset: String(offset) } : {}),
+  });
+
+  const response = await fetch(url, { signal });
+  if (!response.ok) {
+    throw new Error("Could not load wallpapers from Wikimedia Commons.");
+  }
+
+  const result = await response.json();
+  if (result.errors?.length) {
+    throw new Error("The wallpaper service returned an error.");
+  }
+
+  const pages = Object.values(result.query?.pages || {});
+  const wallpapers = pages.flatMap((page) => {
+    const image = page.imageinfo?.[0];
+    if (
+      !image?.url ||
+      !image.thumburl ||
+      !Number.isFinite(image.width) ||
+      !Number.isFinite(image.height) ||
+      image.width < wallpaperWidth ||
+      image.height < wallpaperHeight ||
+      image.width / image.height < wallpaperAspectRatio ||
+      image.width / image.height > 0.9
+    ) {
+      return [];
+    }
+
+    return [
+      {
+        id: page.pageid,
+        title: page.title.replace(/^File:/, ""),
+        sourceUrl: image.url,
+        previewUrl: image.thumburl,
+        pageUrl: image.descriptionurl,
+        width: image.width,
+        height: image.height,
+        license: image.extmetadata?.LicenseShortName?.value || "See source page",
+      },
+    ];
+  });
+
+  return {
+    wallpapers,
+    nextOffset: result.continue?.gsroffset ?? null,
+  };
+}
+
+async function downloadWallpaper(wallpaper) {
+  const image = new Image();
+  image.crossOrigin = "anonymous";
+  const imageLoaded = new Promise((resolve, reject) => {
+    image.onload = resolve;
+    image.onerror = () =>
+      reject(new Error("Could not load the full-resolution image for download."));
+  });
+  image.src = wallpaper.sourceUrl;
+  await imageLoaded;
+
+  if (
+    image.naturalWidth < wallpaperWidth ||
+    image.naturalHeight < wallpaperHeight
+  ) {
+    throw new Error("The source image is not large enough for an Ultra HD crop.");
+  }
+
+  const sourceRatio = image.naturalWidth / image.naturalHeight;
+  const cropWidth =
+    sourceRatio > wallpaperAspectRatio
+      ? image.naturalHeight * wallpaperAspectRatio
+      : image.naturalWidth;
+  const cropHeight = cropWidth / wallpaperAspectRatio;
+  const cropX = (image.naturalWidth - cropWidth) / 2;
+  const cropY = (image.naturalHeight - cropHeight) / 2;
+  const canvas = document.createElement("canvas");
+  canvas.width = wallpaperWidth;
+  canvas.height = wallpaperHeight;
+
+  const context = canvas.getContext("2d");
+  if (!context) {
+    throw new Error("Your browser could not prepare the wallpaper download.");
+  }
+
+  context.drawImage(
+    image,
+    cropX,
+    cropY,
+    cropWidth,
+    cropHeight,
+    0,
+    0,
+    wallpaperWidth,
+    wallpaperHeight,
+  );
+  const blob = await new Promise((resolve) =>
+    canvas.toBlob(resolve, "image/jpeg", 0.94),
+  );
+  if (!blob) {
+    throw new Error("Could not create the wallpaper download.");
+  }
+
+  const downloadUrl = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = downloadUrl;
+  link.download = `${wallpaper.title.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "")}-Islam24.jpg`;
+  link.click();
+  window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+}
+
+function WallpaperPage({ showHero }) {
+  const [wallpapers, setWallpapers] = useState([]);
+  const [nextOffset, setNextOffset] = useState(null);
+  const [retryKey, setRetryKey] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [error, setError] = useState("");
+  const [downloadError, setDownloadError] = useState("");
+  const [downloadingId, setDownloadingId] = useState(null);
+  const requestRef = useRef(null);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    requestRef.current = controller;
+    setIsLoading(true);
+    setError("");
+    setWallpapers([]);
+    setNextOffset(null);
+    fetchWallpapers(0, controller.signal)
+      .then(({ wallpapers: nextWallpapers, nextOffset: offset }) => {
+        setWallpapers(nextWallpapers);
+        setNextOffset(offset);
+      })
+      .catch((requestError) => {
+        if (requestError.name !== "AbortError") setError(requestError.message);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setIsLoading(false);
+      });
+
+    return () => controller.abort();
+  }, [retryKey]);
+
+  const loadMore = async () => {
+    if (nextOffset === null || isLoadingMore) return;
+
+    const controller = new AbortController();
+    requestRef.current?.abort();
+    requestRef.current = controller;
+    setIsLoadingMore(true);
+    setError("");
+
+    try {
+      const { wallpapers: nextWallpapers, nextOffset: offset } =
+        await fetchWallpapers(nextOffset, controller.signal);
+      setWallpapers((current) => {
+        const existingIds = new Set(current.map((wallpaper) => wallpaper.id));
+        return [
+          ...current,
+          ...nextWallpapers.filter((wallpaper) => !existingIds.has(wallpaper.id)),
+        ];
+      });
+      setNextOffset(offset);
+    } catch (requestError) {
+      if (requestError.name !== "AbortError") setError(requestError.message);
+    } finally {
+      if (!controller.signal.aborted) setIsLoadingMore(false);
+    }
+  };
+
+  const handleDownload = async (wallpaper) => {
+    setDownloadingId(wallpaper.id);
+    setDownloadError("");
+    try {
+      await downloadWallpaper(wallpaper);
+    } catch (downloadFailure) {
+      setDownloadError(downloadFailure.message);
+    } finally {
+      setDownloadingId(null);
+    }
+  };
+
+  return (
+    <>
+      {showHero("wallpapers")}
+      {isLoading && <p role="status">Finding high-resolution wallpapers…</p>}
+      {error && (
+        <div className="wallpaper-error" role="alert">
+          <p>{error}</p>
+          <button
+            className="secondary-button"
+            type="button"
+            onClick={() => setRetryKey((key) => key + 1)}
+          >
+            Try again
+          </button>
+        </div>
+      )}
+      {!isLoading && !error && wallpapers.length === 0 && (
+        <p className="wallpaper-empty">
+          No mosque images matching the 9:16 Ultra HD requirements were found.
+          Try again later to check for new images.
+        </p>
+      )}
+      {downloadError && (
+        <p className="wallpaper-error" role="alert">
+          {downloadError}
+        </p>
+      )}
+      <div className="wallpaper-grid">
+        {wallpapers.map((wallpaper) => (
+          <article className="wallpaper-card panel" key={wallpaper.id}>
+            <img
+              src={wallpaper.previewUrl}
+              alt={wallpaper.title}
+              loading="lazy"
+            />
+            <button
+              className="wallpaper-download-button"
+              type="button"
+              onClick={() => handleDownload(wallpaper)}
+              disabled={downloadingId !== null}
+              aria-label={
+                downloadingId === wallpaper.id
+                  ? `Preparing download: ${wallpaper.title}`
+                  : `Download ${wallpaper.title}`
+              }
+            >
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <path d="m7 10 5 5 5-5" />
+                <path d="M12 15V3" />
+              </svg>
+            </button>
+          </article>
+        ))}
+      </div>
+      {nextOffset !== null && !isLoading && (
+        <div className="wallpaper-load-more">
+          <button
+            className="secondary-button"
+            type="button"
+            onClick={loadMore}
+            disabled={isLoadingMore}
+          >
+            {isLoadingMore ? "Finding more images…" : "Load more wallpapers"}
+          </button>
+        </div>
+      )}
     </>
   );
 }

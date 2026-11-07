@@ -1124,7 +1124,7 @@ export const bookTitles = [
   },
 ];
 
-const mosqueImages = [
+export const mosqueImages = [
   {
     url: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Supplicating_Pilgrim_at_Masjid_Al_Haram._Mecca%2C_Saudi_Arabia.jpg/960px-Supplicating_Pilgrim_at_Masjid_Al_Haram._Mecca%2C_Saudi_Arabia.jpg",
     credit: "Ali Mansuri",
@@ -1506,3 +1506,157 @@ export const girlsNames = [
   ["Yusra", "Ease; prosperity"],
   ["Zahra", "Radiant; blooming"],
 ];
+
+export const hadithBooks = [
+  { id: "bukhari", label: "Sahih Bukhari", name: "Sahih al-Bukhari", icon: "📕" },
+  { id: "muslim", label: "Sahih Muslim", name: "Sahih Muslim", icon: "📗" },
+  { id: "abudawud", label: "Abu Dawud", name: "Sunan Abi Dawud", icon: "📘" },
+  { id: "tirmidhi", label: "Jami Tirmidhi", name: "Jami at-Tirmidhi", icon: "📙" },
+  { id: "nasai", label: "An-Nasa'i", name: "Sunan an-Nasa'i", icon: "📔" },
+  { id: "ibnmajah", label: "Ibn e Majah", name: "Sunan Ibn Majah", icon: "📒" },
+];
+
+export const communityFeedbacks = [
+  {
+    quote:
+      " The prayer times and daily reminders make it easy to keep my routine organized. ",
+    name: "- Salman Ahmad",
+  },
+  {
+    quote:
+      " I appreciate having Quran, hadith, and other resources together in one place. ",
+    name: "- Khalid Arshad",
+  },
+  {
+    quote:
+      " The simple layout helps me find what I need without distractions. ",
+    name: "- Hamza Khan",
+  },
+  {
+    quote: " A useful companion for learning a little more every day. ",
+    name: "- Arshad Waseem",
+  },
+];
+
+export const hadithsByBook = {
+  bukhari: [
+    {
+      number: "1",
+      summary:
+        "Deeds are judged by their intentions, and each person receives according to what they intended.",
+      status: "Sahih",
+    },
+    {
+      number: "13",
+      summary:
+        "Faith includes wishing for others the good that one wishes for oneself.",
+      status: "Sahih",
+    },
+    {
+      number: "69",
+      summary:
+        "The Prophet ﷺ taught people to make matters easy and not drive them away.",
+      status: "Sahih",
+    },
+  ],
+  muslim: [
+    {
+      number: "35",
+      summary:
+        "Faith has many branches, including modesty.",
+      status: "Sahih",
+    },
+    {
+      number: "223",
+      summary:
+        "Purification is described as a part of faith.",
+      status: "Sahih",
+    },
+    {
+      number: "1006",
+      summary:
+        "Acts of charity include everyday acts of goodness and remembrance.",
+      status: "Sahih",
+    },
+    {
+      number: "1017",
+      summary:
+        "The one who begins a good practice receives its reward and the reward of those who follow it.",
+      status: "Sahih",
+    },
+    {
+      number: "2319",
+      summary:
+        "Those who show mercy to others will receive mercy from Allah.",
+      status: "Sahih",
+    },
+    {
+      number: "2564",
+      summary:
+        "The Prophet ﷺ warned against envy, hatred, and turning away from one another.",
+      status: "Sahih",
+    },
+    {
+      number: "2588",
+      summary:
+        "Charity does not diminish wealth, and humility raises a person's honor.",
+      status: "Sahih",
+    },
+    {
+      number: "2593",
+      summary:
+        "Gentleness beautifies what it is present in.",
+      status: "Sahih",
+    },
+    {
+      number: "2664",
+      summary:
+        "The strong believer is better and more beloved to Allah, while there is good in both.",
+      status: "Sahih",
+    },
+    {
+      number: "2699",
+      summary:
+        "Helping others, seeking knowledge, and gathering to learn the Quran are connected with divine support and mercy.",
+      status: "Sahih",
+    },
+    {
+      number: "47",
+      summary:
+        "Whoever believes in Allah and the Last Day should speak what is good or remain silent.",
+      status: "Sahih",
+    },
+  ],
+  abudawud: [
+    {
+      number: "4607",
+      summary:
+        "In times of disagreement, the Prophet ﷺ advised holding firmly to his Sunnah and the way of the rightly guided caliphs.",
+      status: "Sahih (al-Albani)",
+    },
+  ],
+  tirmidhi: [
+    {
+      number: "1924",
+      summary:
+        "Those who show mercy to others are shown mercy by the Most Merciful.",
+      status: "Hasan Sahih",
+    },
+  ],
+  nasai: [
+    {
+      number: "4998",
+      summary:
+        "The narration describes how accepting Islam brings reward for earlier good deeds and forgiveness for earlier wrongs.",
+      status: "Sahih",
+    },
+  ],
+  ibnmajah: [
+    {
+      number: "224",
+      summary:
+        "A narration emphasizes seeking knowledge as an important responsibility for Muslims.",
+      status: "Grading varies",
+    },
+  ],
+};
